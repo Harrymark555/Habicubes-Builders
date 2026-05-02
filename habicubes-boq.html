@@ -1,0 +1,1964 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HABICUBES BUILDERS — Construction BOQ & Cost Estimator | Kerala 2025–26</title>
+<meta name="description" content="Free Kerala construction BOQ tool by HABICUBES BUILDERS. Generate accurate cost estimates using 2025–26 Kerala market rates. Call: 9847767740">
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Source+Sans+3:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+/* ═══════════════════════════════════════════
+   DESIGN TOKENS — Professional Document Style
+   Inspired by Salyprojects Pvt. Ltd. BOQ
+═══════════════════════════════════════════ */
+:root {
+  --ivory:      #FAFAFA;
+  --ivory2:     #F4F4F4;
+  --ivory3:     #EBEBEB;
+  --parchment:  #F0EEE8;
+  --white:      #FFFFFF;
+  --slate:      #1A1D20;
+  --slate2:     #2C3138;
+  --slate3:     #404650;
+  --muted:      #5A6270;
+  --faint:      #9CA3AF;
+  --line:       #D8D8D8;
+  --line2:      #CACACA;
+  --forest:     #1B4F35;
+  --forest2:    #123527;
+  --forest3:    #0B2318;
+  --forest-bg:  #EAF4EE;
+  --forest-mid: #9EC9B0;
+  --gold:       #8B6914;
+  --gold-bg:    #FAF3E0;
+  --gold-mid:   #D4AC5A;
+  --crimson:    #8B2020;
+  --crimson-bg: #FDF0F0;
+  --sky:        #1A4A6E;
+  --sky-bg:     #EBF3FA;
+  --doc-bg:     #F2F2F2;
+
+  --ff-display: 'EB Garamond', 'Times New Roman', Georgia, serif;
+  --ff-body:    'Source Sans 3', 'Arial', sans-serif;
+  --ff-mono:    'IBM Plex Mono', 'Courier New', monospace;
+
+  --r:   4px;
+  --r2:  6px;
+  --r3:  8px;
+  --sh:  0 1px 4px rgba(0,0,0,.08), 0 2px 12px rgba(0,0,0,.04);
+  --sh2: 0 4px 20px rgba(0,0,0,.10), 0 1px 6px rgba(0,0,0,.06);
+  --sh3: 0 12px 40px rgba(0,0,0,.14);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 14px; scroll-behavior: smooth; }
+body {
+  font-family: var(--ff-body);
+  background: var(--doc-bg);
+  color: var(--slate);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: var(--ivory2); }
+::-webkit-scrollbar-thumb { background: var(--line2); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+
+/* CONTACT BAR */
+.contact-bar{background:var(--forest2);border-bottom:1px solid var(--forest);padding:6px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:.7rem}
+.cb-brand{font-family:var(--ff-display);font-weight:700;color:#fff;font-size:.78rem;letter-spacing:.03em}
+.cb-sub{color:rgba(255,255,255,.5);font-size:.68rem}
+.cb-sep{color:rgba(255,255,255,.25);margin:0 4px}
+.cb-right{display:flex;align-items:center;gap:0;flex-wrap:wrap}
+.cb-link{color:rgba(255,255,255,.72);text-decoration:none;transition:color .13s;font-size:.7rem;display:inline-flex;align-items:center;gap:4px}
+.cb-link:hover{color:#7FC4A0}
+.cb-wa{background:rgba(34,197,94,.18);border:1px solid rgba(34,197,94,.3);padding:3px 9px;border-radius:100px;color:#5fdd96;margin-left:8px}
+.cb-wa:hover{background:rgba(34,197,94,.28);color:#7fe8a8}
+
+/* TOPBAR */
+.topbar {
+  position: sticky; top: 0; z-index: 300;
+  height: 52px;
+  background: var(--forest3);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 20px;
+  box-shadow: 0 2px 12px rgba(0,0,0,.35);
+  border-bottom: 2px solid var(--forest);
+}
+.tb-brand { display: flex; align-items: center; gap: 10px; }
+.tb-mark {
+  width: 32px; height: 32px;
+  background: var(--forest);
+  border-radius: 4px;
+  display: grid; place-items: center;
+  border: 1px solid rgba(255,255,255,.15);
+}
+.tb-mark svg { width: 18px; height: 18px; }
+.tb-title {
+  font-family: var(--ff-display);
+  font-size: 1.1rem; font-weight: 600;
+  color: var(--white);
+  letter-spacing: .02em;
+}
+.tb-title span { color: #7FC4A0; }
+.tb-subtitle { font-size: .6rem; color: rgba(255,255,255,.35); margin-top: 1px; letter-spacing:.06em; text-transform:uppercase; }
+.tb-actions { display: flex; gap: 6px; align-items: center; }
+
+/* BUTTONS */
+.btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 7px 15px; border-radius: var(--r);
+  font-family: var(--ff-body); font-size: .78rem; font-weight: 600;
+  cursor: pointer; border: none; transition: all .18s ease;
+  white-space: nowrap; line-height: 1;
+}
+.btn-ghost-white { background: rgba(255,255,255,.1); color: var(--white); border: 1px solid rgba(255,255,255,.2); }
+.btn-ghost-white:hover { background: rgba(255,255,255,.18); transform: translateY(-1px); }
+.btn-forest { background: var(--forest); color: var(--white); }
+.btn-forest:hover { background: var(--forest2); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(26,79,58,.3); }
+.btn-outline { background: var(--white); color: var(--slate2); border: 1.5px solid var(--line2); }
+.btn-outline:hover { border-color: var(--forest); color: var(--forest); }
+.btn-ghost { background: transparent; color: var(--muted); border: 1.5px solid var(--line2); }
+.btn-ghost:hover { border-color: var(--forest); color: var(--forest); }
+.btn-danger { background: var(--crimson-bg); color: var(--crimson); border: 1px solid #f0c8c8; }
+.btn-danger:hover { background: #fbe0e0; }
+.btn-gold { background: var(--gold-bg); color: var(--gold); border: 1px solid var(--gold-mid); }
+.btn-gold:hover { background: #f5ecd0; }
+.btn-sm { padding: 5px 12px; font-size: .75rem; }
+.btn-xs { padding: 3px 8px; font-size: .71rem; border-radius: 5px; }
+
+/* LAYOUT */
+.layout {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  min-height: calc(100vh - 52px);
+  align-items: start;
+}
+
+/* SIDEBAR */
+.sidebar {
+  background: var(--white);
+  border-right: 1px solid var(--line);
+  position: sticky; top: 52px;
+  height: calc(100vh - 52px);
+  overflow-y: auto;
+  display: flex; flex-direction: column;
+}
+.sb-section { padding: 14px 14px; border-bottom: 1px solid var(--line); }
+.sb-heading {
+  font-family: var(--ff-body);
+  font-size: .68rem; font-weight: 700;
+  letter-spacing: .12em; text-transform: uppercase;
+  color: var(--faint); margin-bottom: 10px;
+}
+
+.field { margin-bottom: 9px; }
+.field:last-child { margin-bottom: 0; }
+.field label { display: block; font-size: .7rem; font-weight: 600; color: var(--muted); margin-bottom: 4px; text-transform: uppercase; letter-spacing: .06em; }
+.field input, .field select, .field textarea {
+  width: 100%; padding: 7px 10px;
+  border: 1.5px solid var(--line);
+  border-radius: var(--r); font-family: var(--ff-body);
+  font-size: .82rem; color: var(--slate);
+  background: var(--ivory); outline: none;
+  transition: border-color .15s, background .15s;
+}
+.field input:focus, .field select:focus { border-color: var(--forest); background: var(--white); box-shadow: 0 0 0 3px rgba(26,79,58,.08); }
+.field select { cursor: pointer; }
+
+/* Section nav */
+.sec-nav { display: flex; flex-direction: column; gap: 2px; max-height: 320px; overflow-y: auto; }
+.sn-item {
+  display: flex; align-items: center; gap: 9px;
+  padding: 7px 10px; border-radius: var(--r);
+  cursor: pointer; transition: all .15s;
+}
+.sn-item:hover { background: var(--ivory2); }
+.sn-item.has-items { background: var(--forest-bg); border: 1px solid var(--forest-mid); }
+.sn-icon { font-size: .9rem; width: 20px; text-align: center; flex-shrink: 0; }
+.sn-label { font-size: .76rem; font-weight: 500; color: var(--slate2); flex: 1; }
+.sn-item.has-items .sn-label { color: var(--forest2); font-weight: 600; }
+.sn-count { font-size: .65rem; font-weight: 700; background: var(--line2); color: var(--muted); padding: 2px 6px; border-radius: 100px; }
+.sn-item.has-items .sn-count { background: var(--forest); color: var(--white); }
+
+/* GST */
+.gst-wrap { display: flex; flex-direction: column; gap: 9px; }
+.gst-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.gst-row label { font-size: .82rem; font-weight: 500; color: var(--slate2); }
+.tog { position: relative; width: 40px; height: 22px; flex-shrink: 0; }
+.tog input { opacity: 0; width: 0; height: 0; }
+.tog-sl { position: absolute; inset: 0; background: var(--line2); border-radius: 22px; cursor: pointer; transition: .25s; box-shadow: 0 1px 3px rgba(0,0,0,.2); }
+.tog-sl::before { content: ''; position: absolute; width: 16px; height: 16px; background: var(--white); border-radius: 50%; left: 3px; top: 3px; transition: .25s; }
+.tog input:checked + .tog-sl { background: var(--forest); }
+.tog input:checked + .tog-sl::before { transform: translateX(18px); }
+.gst-rate-sel { padding: 5px 8px; border: 1.5px solid var(--line); border-radius: 6px; font-family: var(--ff-body); font-size: .8rem; color: var(--slate); background: var(--ivory); cursor: pointer; outline: none; }
+.gst-rate-sel:focus { border-color: var(--forest); }
+
+/* Sidebar totals */
+.tot-list { display: flex; flex-direction: column; gap: 1px; }
+.tot-item { display: flex; align-items: center; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid var(--line); }
+.tot-item:last-child { border: none; }
+.tot-item span { font-size: .74rem; color: var(--muted); }
+.tot-item strong { font-family: var(--ff-mono); font-size: .74rem; color: var(--slate); }
+
+.grand-pill { background: var(--forest3); border-radius: var(--r2); padding: 12px; margin-top: 8px; border: 1px solid var(--forest2); }
+.gp-label { font-size: .62rem; text-transform: uppercase; letter-spacing: .1em; color: rgba(255,255,255,.45); }
+.gp-amount { font-family: var(--ff-mono); font-size: 1.2rem; font-weight: 600; color: #7FC4A0; margin: 3px 0 1px; }
+.gp-words { font-size: .61rem; color: rgba(255,255,255,.38); font-style: italic; line-height: 1.4; }
+
+/* MAIN */
+.main { padding: 18px 20px; display: flex; flex-direction: column; gap: 12px; }
+
+/* SECTION CARD — Document style like Salyprojects PDF */
+.sec-card { background: var(--white); border: 1px solid var(--line); border-radius: var(--r3); overflow: hidden; box-shadow: var(--sh); transition: box-shadow .2s; }
+.sec-card:hover { box-shadow: var(--sh2); }
+.sec-head { display: flex; align-items: center; justify-content: space-between; padding: 10px 16px; background: var(--forest); border-bottom: 1px solid var(--forest2); cursor: pointer; user-select: none; transition: background .15s; }
+.sec-head:hover { background: var(--forest2); }
+.sh-left { display: flex; align-items: center; gap: 10px; }
+.sh-icon-wrap { font-size: .88rem; width: 22px; text-align: center; flex-shrink: 0; }
+.sh-title { font-family: var(--ff-body); font-size: .82rem; font-weight: 700; color: var(--white); letter-spacing: .04em; text-transform: uppercase; }
+.sh-meta { font-size: .66rem; color: rgba(255,255,255,.45); margin-top: 1px; }
+.sh-right { display: flex; align-items: center; gap: 10px; }
+.sh-total { font-family: var(--ff-mono); font-size: .78rem; font-weight: 600; color: #fff; background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.25); padding: 3px 10px; border-radius: 3px; }
+.sh-toggle { color: rgba(255,255,255,.5); font-size: .76rem; transition: transform .25s; }
+.sh-toggle.open { transform: rotate(180deg); }
+.sec-body.collapsed { display: none; }
+
+/* BOQ TABLE — matching Salyprojects PDF table style */
+.tbl-scroll { overflow-x: auto; }
+table.boq-tbl { width: 100%; border-collapse: collapse; min-width: 750px; }
+table.boq-tbl thead tr { background: var(--ivory3); }
+table.boq-tbl th { padding: 7px 10px; font-size: .68rem; font-weight: 700; color: var(--slate2); text-transform: uppercase; letter-spacing: .07em; text-align: left; border-bottom: 2px solid var(--forest); border-right: 1px solid var(--line); white-space: nowrap; background: var(--ivory3); }
+table.boq-tbl th:last-child { border-right: none; }
+table.boq-tbl th.r { text-align: right; }
+table.boq-tbl th.c { text-align: center; }
+table.boq-tbl td { padding: 6px 8px; border-bottom: 1px solid var(--line); border-right: 1px solid var(--line); vertical-align: middle; }
+table.boq-tbl td:last-child { border-right: none; }
+table.boq-tbl tbody tr:last-child td { border-bottom: none; }
+table.boq-tbl tbody tr { transition: background .1s; }
+table.boq-tbl tbody tr:hover { background: var(--forest-bg); }
+table.boq-tbl tbody tr.is-custom { background: #FDFBF5; }
+table.boq-tbl tbody tr.is-custom:hover { background: #F7F2E5; }
+
+/* Spec bullets inside description — matches PDF sub-bullet style */
+.spec-notes { margin-top: 3px; display: flex; flex-direction: column; gap: 1px; }
+.spec-note { font-size: .68rem; color: var(--muted); display: flex; align-items: baseline; gap: 5px; line-height: 1.4; }
+.spec-note::before { content: '•'; color: var(--forest); font-size: .7rem; flex-shrink: 0; }
+
+.ti { width: 100%; padding: 4px 7px; border: 1.5px solid transparent; border-radius: 3px; font-family: var(--ff-body); font-size: .82rem; color: var(--slate); background: transparent; outline: none; transition: all .15s; }
+.ti:hover { border-color: var(--line); background: var(--ivory); }
+.ti:focus { border-color: var(--forest); background: var(--white); box-shadow: 0 0 0 2px rgba(27,79,53,.1); }
+.ti.mono { font-family: var(--ff-mono); text-align: right; }
+.t-sel { padding: 4px 5px; border: 1.5px solid transparent; border-radius: 3px; font-family: var(--ff-body); font-size: .79rem; color: var(--slate); background: transparent; cursor: pointer; outline: none; transition: all .15s; max-width: 90px; }
+.t-sel:hover { border-color: var(--line); background: var(--ivory); }
+.t-sel:focus { border-color: var(--forest); background: var(--white); }
+.td-amount { font-family: var(--ff-mono); font-size: .8rem; font-weight: 600; color: var(--forest2); text-align: right; white-space: nowrap; padding-right: 12px !important; }
+.row-num { font-size: .7rem; color: var(--faint); text-align: center; font-family: var(--ff-mono); }
+.tag-custom { display: inline-block; font-size: .59rem; font-weight: 700; background: var(--gold-bg); color: var(--gold); border: 1px solid var(--gold-mid); padding: 1px 5px; border-radius: 3px; margin-left: 5px; vertical-align: middle; letter-spacing: .04em; text-transform: uppercase; }
+
+/* ADD AREA */
+.add-area { padding: 12px 16px; background: var(--ivory); border-top: 1px dashed var(--line2); }
+.add-mode-row { display: flex; gap: 6px; margin-bottom: 10px; }
+.mode-btn { padding: 5px 13px; border-radius: 20px; font-family: var(--ff-body); font-size: .74rem; font-weight: 600; cursor: pointer; border: 1.5px solid var(--line2); color: var(--muted); background: var(--white); transition: all .15s; }
+.mode-btn.active { border-color: var(--forest); background: var(--forest-bg); color: var(--forest2); }
+.preset-panel { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.preset-sel { flex: 1; min-width: 220px; padding: 7px 10px; border: 1.5px solid var(--line2); border-radius: var(--r); font-family: var(--ff-body); font-size: .8rem; color: var(--slate); background: var(--white); outline: none; cursor: pointer; }
+.preset-sel:focus { border-color: var(--forest); }
+.custom-panel { display: none; }
+.custom-grid { display: grid; grid-template-columns: 1fr 90px 85px 95px auto; gap: 8px; align-items: end; }
+.custom-grid .cf-wrap label { display: block; font-size: .67rem; font-weight: 600; color: var(--muted); margin-bottom: 4px; text-transform: uppercase; letter-spacing: .05em; }
+.cf-input { width: 100%; padding: 7px 10px; border: 1.5px solid var(--line2); border-radius: var(--r); font-family: var(--ff-body); font-size: .81rem; color: var(--slate); background: var(--white); outline: none; transition: border .15s; }
+.cf-input:focus { border-color: var(--forest); box-shadow: 0 0 0 3px rgba(26,79,58,.08); }
+.cf-input.mono { font-family: var(--ff-mono); text-align: right; }
+.cf-select { width: 100%; padding: 7px 8px; border: 1.5px solid var(--line2); border-radius: var(--r); font-family: var(--ff-body); font-size: .8rem; color: var(--slate); background: var(--white); outline: none; cursor: pointer; }
+.cf-select:focus { border-color: var(--forest); }
+
+/* SUMMARY */
+.sum-card { background: var(--white); border: 1px solid var(--line); border-radius: var(--r3); overflow: hidden; box-shadow: var(--sh); }
+.sum-hdr { display: flex; align-items: center; justify-content: space-between; padding: 12px 20px; background: var(--forest); color: var(--white); }
+.sum-hdr-title { font-family: var(--ff-display); font-size: 1rem; font-weight: 600; letter-spacing: .04em; }
+.sum-hdr-date { font-size: .72rem; color: rgba(255,255,255,.45); }
+.sum-cols { display: grid; grid-template-columns: 1fr 60px 105px 90px 110px; padding: 7px 20px; background: var(--ivory3); border-bottom: 2px solid var(--forest); gap: 12px; }
+.sum-col-label { font-size: .65rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--slate2); }
+.sum-col-label.r { text-align: right; }
+.sum-body {}
+.sum-row { display: grid; grid-template-columns: 1fr 60px 105px 90px 110px; padding: 9px 20px; border-bottom: 1px solid var(--line); gap: 12px; align-items: center; transition: background .12s; }
+.sum-row:last-child { border: none; }
+.sum-row:hover { background: var(--forest-bg); }
+.sum-row-name { display: flex; align-items: center; gap: 8px; font-size: .82rem; font-weight: 500; color: var(--slate); }
+.sum-row-items { font-size: .73rem; color: var(--faint); text-align: center; }
+.sum-row-num { font-family: var(--ff-mono); font-size: .79rem; color: var(--muted); text-align: right; }
+.sum-row-total { font-family: var(--ff-mono); font-size: .84rem; font-weight: 600; color: var(--forest2); text-align: right; }
+.sum-empty { padding: 32px; text-align: center; color: var(--faint); font-size: .85rem; }
+.grand-bar { background: var(--forest3); display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; gap: 16px; border-top: 2px solid var(--forest); }
+.gb-left {}
+.gb-label { font-family: var(--ff-display); font-size: 1rem; font-weight: 500; color: rgba(255,255,255,.7); }
+.gb-words { font-size: .67rem; color: rgba(255,255,255,.4); font-style: italic; margin-top: 3px; max-width: 380px; line-height: 1.4; }
+.gb-amount { font-family: var(--ff-mono); font-size: 1.55rem; font-weight: 700; color: #7FC4A0; white-space: nowrap; }
+
+/* PRINT HEADER — matching Salyprojects letter head style */
+.print-header { display: none; }
+@media print {
+  .print-header {
+    display: block;
+    padding: 0 0 0;
+    margin-bottom: 0;
+  }
+  .ph-logo-row {
+    display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 2.5px solid #1B4F35;
+    padding-bottom: 10px; margin-bottom: 6px;
+  }
+  .ph-firm {
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 2rem; font-weight: 700; color: #1B4F35;
+    letter-spacing: -.01em; line-height: 1;
+  }
+  .ph-firm-sub {
+    font-size: .7rem; color: #5A6270; letter-spacing: .1em;
+    text-transform: uppercase; margin-top: 2px;
+  }
+  .ph-contact { font-size: .72rem; color: #5A6270; text-align: right; line-height: 1.7; font-weight: 500; }
+  .ph-boq-title {
+    font-size: .78rem; font-weight: 700; color: #1B4F35;
+    letter-spacing: .1em; text-transform: uppercase;
+    text-align: center; padding: 5px 0 4px;
+    border-bottom: 1px solid #CACACA;
+    margin-bottom: 8px;
+  }
+  .ph-details {
+    font-size: .74rem; color: #404650;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 2px 24px; margin-bottom: 10px;
+  }
+  .ph-detail-item { display: flex; gap: 6px; }
+  .ph-detail-label { font-weight: 700; color: #2C3138; min-width: 80px; }
+  * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+  .topbar, .sidebar, .add-area, .sec-head .btn, .no-print, .terms-block, .overlay, .rate-notice, .contact-bar { display: none !important; }
+  body { background: #fff !important; font-size: 11px !important; }
+  .layout { display: block !important; }
+  .main { padding: 0 !important; gap: 0 !important; }
+  .sec-body.collapsed { display: block !important; }
+  .sec-card { box-shadow: none !important; border: none !important; border-radius: 0 !important; page-break-inside: avoid; margin-bottom: 0 !important; }
+  .sec-head { background: #1B4F35 !important; color: #fff !important; padding: 6px 12px !important; border-bottom: 1px solid #123527 !important; }
+  .sh-icon-wrap { display: none !important; }
+  .sh-title { color: #fff !important; font-size: .76rem !important; font-weight: 700 !important; letter-spacing: .08em !important; }
+  .sh-meta { color: rgba(255,255,255,.5) !important; }
+  .sh-toggle { display: none !important; }
+  .sh-total { background: rgba(255,255,255,.15) !important; border-color: rgba(255,255,255,.3) !important; color: #fff !important; }
+  table.boq-tbl { min-width: 0 !important; }
+  table.boq-tbl th { background: #EAF4EE !important; font-size: .62rem !important; padding: 5px 7px !important; border-bottom: 1.5px solid #1B4F35 !important; border-right: 1px solid #D8D8D8 !important; }
+  table.boq-tbl td { padding: 5px 7px !important; font-size: .78rem !important; border-bottom: 1px solid #D8D8D8 !important; border-right: 1px solid #EBEBEB !important; }
+  table.boq-tbl tbody tr:nth-child(even) td { background: #F6FBF8 !important; }
+  .ti, .t-sel { border: none !important; background: transparent !important; padding: 0 !important; box-shadow: none !important; pointer-events: none; }
+  .spec-note { font-size: .67rem !important; color: #5A6270 !important; }
+  .sum-card { box-shadow: none !important; border: 1px solid #D8D8D8 !important; page-break-before: always; }
+  .grand-bar { background: #1B4F35 !important; }
+  .gb-amount { color: #7FC4A0 !important; }
+  .sum-hdr { background: #0B2318 !important; }
+  .tbl-scroll { border-bottom: 1.5px solid #1B4F35; }
+}
+
+@media (max-width: 900px) {
+  .layout { grid-template-columns: 1fr; }
+  .sidebar { position: static; height: auto; border-right: none; border-bottom: 1px solid var(--line); }
+  .custom-grid { grid-template-columns: 1fr 80px; }
+  .sum-cols, .sum-row { grid-template-columns: 1fr auto auto; }
+  .sum-row-items, .sum-row-num { display: none; }
+}
+
+/* TERMS BLOCK */
+.terms-block { padding: 14px 20px; border-top: 1px solid var(--line); background: var(--ivory); }
+.terms-block label { font-size: .68rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); display: block; margin-bottom: 7px; }
+.terms-block textarea { width: 100%; min-height: 68px; padding: 9px 11px; border: 1.5px solid var(--line); border-radius: var(--r); font-family: var(--ff-body); font-size: .8rem; color: var(--slate2); background: var(--white); resize: vertical; outline: none; transition: border .15s; line-height: 1.6; }
+.terms-block textarea:focus { border-color: var(--forest); }
+
+/* RATE SCHEDULE NOTICE BADGE */
+.rate-notice { display:flex; align-items:center; gap:8px; background: var(--gold-bg); border: 1px solid var(--gold-mid); border-radius:var(--r2); padding:7px 12px; margin:0 0 2px; font-size:.73rem; color:var(--gold); }
+.rate-notice strong { font-weight:600; }
+
+/* MODALS */
+.overlay { position: fixed; inset: 0; z-index: 500; background: rgba(10,15,18,.65); backdrop-filter: blur(5px); display: none; place-items: center; padding: 20px; }
+.overlay.open { display: grid; }
+.modal { background: var(--white); border-radius: var(--r3); max-width: 800px; width: 100%; max-height: 88vh; display: flex; flex-direction: column; box-shadow: var(--sh3); animation: modalIn .2s ease; }
+@keyframes modalIn { from { opacity:0; transform:translateY(14px) scale(.98); } to { opacity:1; transform:none; } }
+.modal-hdr { display: flex; align-items: center; justify-content: space-between; padding: 16px 22px; background: var(--ivory2); border-bottom: 1px solid var(--line); border-radius: var(--r3) var(--r3) 0 0; }
+.modal-hdr h3 { font-family: var(--ff-body); font-size: 1rem; font-weight: 700; color: var(--slate); letter-spacing: .02em; }
+.modal-hdr p { font-size: .73rem; color: var(--muted); margin-top: 3px; }
+.modal-x { background: none; border: none; font-size: 1rem; cursor: pointer; color: var(--muted); padding: 4px 8px; border-radius: 4px; transition: all .15s; }
+.modal-x:hover { background: var(--ivory3); color: var(--slate); }
+.modal-body { overflow-y: auto; flex: 1; }
+.modal-foot { padding: 12px 22px; border-top: 1px solid var(--line); display: flex; justify-content: flex-end; gap: 8px; background: var(--ivory2); border-radius: 0 0 var(--r3) var(--r3); }
+
+.rtabs { display: flex; gap: 0; overflow-x: auto; border-bottom: 2px solid var(--line2); background: var(--white); padding: 0 22px; scrollbar-width: none; }
+.rtabs::-webkit-scrollbar { display: none; }
+.rtab { padding: 9px 13px; font-size: .74rem; font-weight: 600; color: var(--muted); cursor: pointer; white-space: nowrap; border-bottom: 2.5px solid transparent; margin-bottom: -2px; transition: all .15s; }
+.rtab.active { color: var(--forest); border-bottom-color: var(--forest); }
+.rtab:hover:not(.active) { color: var(--slate); }
+.rpanel { display: none; padding: 16px 22px 22px; }
+.rpanel.active { display: block; }
+.rate-table { width: 100%; border-collapse: collapse; }
+.rate-table th { font-size: .65rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); padding: 7px 10px; border-bottom: 2px solid var(--forest); text-align: left; }
+.rate-table td { padding: 7px 10px; border-bottom: 1px solid var(--line); font-size: .81rem; }
+.rate-table tr:last-child td { border: none; }
+.rate-table tbody tr:hover td { background: var(--forest-bg); }
+.rn { width: 108px; padding: 5px 8px; border: 1.5px solid var(--line2); border-radius: 4px; font-family: var(--ff-mono); font-size: .81rem; text-align: right; outline: none; transition: border .15s; }
+.rn:focus { border-color: var(--forest); box-shadow: 0 0 0 2px rgba(27,79,53,.1); }
+.rate-note { font-size: .65rem; color: var(--faint); margin-top: 2px; }
+/* WHATSAPP FAB */
+.wa-fab{position:fixed;bottom:22px;right:22px;z-index:400;width:52px;height:52px;background:#22C55E;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 18px rgba(34,197,94,.45);cursor:pointer;transition:all .2s;text-decoration:none;border:none}
+.wa-fab:hover{background:#16A34A;transform:scale(1.08);box-shadow:0 6px 24px rgba(34,197,94,.55)}
+.wa-tooltip{position:absolute;right:60px;top:50%;transform:translateY(-50%);background:#0B2318;color:#fff;font-size:.69rem;font-weight:600;padding:5px 10px;border-radius:5px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .15s;font-family:var(--ff-body)}
+.wa-tooltip::after{content:'';position:absolute;left:100%;top:50%;transform:translateY(-50%);border:5px solid transparent;border-left-color:#0B2318}
+.wa-fab:hover .wa-tooltip{opacity:1}
+
+@media(max-width:600px){
+  .contact-bar{flex-direction:column;align-items:flex-start;gap:4px;padding:8px 14px}
+  .cb-right{flex-wrap:wrap;gap:6px}
+  .cb-sep{display:none}
+}
+</style>
+<body>
+
+<div class="print-header" id="printHeader">
+  <div class="ph-logo-row">
+    <div>
+      <div class="ph-firm" id="ph_firm">HABICUBES BUILDERS</div>
+      <div class="ph-firm-sub" id="ph_firm_sub">Construction &amp; Interior Design · Kerala</div>
+    </div>
+    <div class="ph-contact" id="ph_contact">📞 +91 98477 67740<br>✉ harrymark555@gmail.com<br>Alappuzha, Kerala</div>
+  </div>
+  <div class="ph-boq-title">Bill of Quantities — Building Construction</div>
+  <div class="ph-details" id="ph_details"></div>
+</div>
+
+<header class="topbar">
+  <div class="tb-brand">
+    <div class="tb-mark">
+      <svg viewBox="0 0 20 20" fill="none">
+        <rect x="2" y="11" width="16" height="7" rx="1.5" fill="#7FC4A0"/>
+        <polygon points="10,2 2,9 18,9" fill="rgba(127,196,160,.6)"/>
+        <rect x="7.5" y="13" width="5" height="5" rx="1" fill="rgba(255,255,255,.6)"/>
+      </svg>
+    </div>
+    <div>
+      <div class="tb-title">HABICUBES <span>BUILDERS</span></div>
+      <div class="tb-subtitle">Construction BOQ · Kerala 2025–26</div>
+    </div>
+  </div>
+  <div class="tb-actions">
+    <button class="btn btn-ghost-white btn-sm no-print" onclick="openRates()">⚙ Manage Rates</button>
+    <button class="btn btn-ghost-white btn-sm no-print" onclick="doSave()">💾 Save</button>
+    <button class="btn btn-ghost-white btn-sm no-print" onclick="doLoad()">📂 Load</button>
+    <button class="btn btn-ghost-white btn-sm no-print" onclick="doExcelExport()">📊 Export Excel</button>
+    <button class="btn btn-ghost-white btn-sm no-print" onclick="doPrint()">🖨 Print / PDF</button>
+  </div>
+</header>
+<input type="file" id="fileIn" accept=".json" style="display:none" onchange="handleLoad(event)">
+
+<!-- CONTACT BAR -->
+<div class="contact-bar no-print">
+  <div class="cb-left">
+    <span class="cb-brand">HABICUBES BUILDERS</span>
+    <span class="cb-sep">·</span>
+    <span class="cb-sub">Construction &amp; Interior Design · Alappuzha, Kerala</span>
+  </div>
+  <div class="cb-right">
+    <a class="cb-link" href="tel:+919847767740">📞 +91 98477 67740</a>
+    <span class="cb-sep">·</span>
+    <a class="cb-link" href="mailto:harrymark555@gmail.com">✉ harrymark555@gmail.com</a>
+    <span class="cb-sep">·</span>
+    <a class="cb-link cb-wa" href="https://wa.me/919847767740?text=Hi%2C%20I%20need%20a%20BOQ%20estimate%20for%20my%20project." target="_blank">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      WhatsApp
+    </a>
+  </div>
+</div>
+
+<div class="layout">
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sb-section">
+    <div class="sb-heading">Project Details</div>
+    <div class="field"><label>Your Firm / Company Name</label>
+      <input id="f_firm" placeholder="HABICUBES BUILDERS" value="HABICUBES BUILDERS" oninput="syncPrint()"></div>
+    <div class="field"><label>Client Name</label>
+      <input id="f_client" placeholder="Client full name"></div>
+    <div class="field"><label>Project / Location</label>
+      <input id="f_project" placeholder="e.g. 2-storey Villa, Alappuzha"></div>
+    <div class="field"><label>Project Type</label>
+      <select id="f_type" onchange="syncPrint()">
+        <option value="Residential">Residential</option>
+        <option value="Commercial">Commercial</option>
+        <option value="Residential + Commercial">Residential + Commercial</option>
+        <option value="Industrial">Industrial</option>
+      </select>
+    </div>
+    <div class="field"><label>Total Built-up Area (sqft)</label>
+      <input id="f_area" type="number" placeholder="e.g. 1800" oninput="syncPrint()"></div>
+    <div class="field"><label>Date</label>
+      <input id="f_date" type="date"></div>
+    <div class="field"><label>Reference No.</label>
+      <input id="f_ref" placeholder="CBOQ-2025-001"></div>
+  </div>
+
+  <div class="sb-section">
+    <div class="sb-heading">Work Sections</div>
+    <div class="sec-nav" id="secNav"></div>
+  </div>
+
+  <div class="sb-section">
+    <div class="sb-heading">GST</div>
+    <div class="gst-wrap">
+      <div class="gst-row">
+        <label for="gstOn">Apply GST</label>
+        <label class="tog"><input type="checkbox" id="gstOn" onchange="recalc()"><span class="tog-sl"></span></label>
+      </div>
+      <div class="gst-row">
+        <label>GST Rate</label>
+        <select class="gst-rate-sel" id="gstRate" onchange="recalc()">
+          <option value="18">18%</option>
+          <option value="12">12%</option>
+          <option value="5">5%</option>
+          <option value="0">0%</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="sb-section" style="flex:1">
+    <div class="sb-heading">Cost Summary</div>
+    <div class="tot-list" id="sbTots"></div>
+    <div class="grand-pill">
+      <div class="gp-label">Grand Total (incl. GST)</div>
+      <div class="gp-amount" id="sbGrand">₹ 0</div>
+      <div class="gp-words" id="sbWords">—</div>
+    </div>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<main class="main" id="mainContent">
+  <div class="rate-notice no-print">
+    <span>📊</span>
+    <span><strong>HABICUBES BUILDERS — Kerala Market Rates 2025–26.</strong> Rates sourced from Kerala Govt. Economics &amp; Statistics + verified trade sources. Use <em>Manage Rates</em> to adjust to your local district pricing.</span>
+  </div>
+  <div id="sectionsWrap"></div>
+
+  <!-- SUMMARY -->
+  <div class="sum-card" id="sumCard">
+    <div class="sum-hdr">
+      <span class="sum-hdr-title">Bill of Quantities — Summary</span>
+      <span class="sum-hdr-date" id="sumDate"></span>
+    </div>
+    <div class="sum-cols">
+      <div class="sum-col-label">Work Section</div>
+      <div class="sum-col-label r">Items</div>
+      <div class="sum-col-label r">Subtotal</div>
+      <div class="sum-col-label r">GST</div>
+      <div class="sum-col-label r">Total</div>
+    </div>
+    <div class="sum-body" id="sumBody">
+      <div class="sum-empty">Add items to any section above to see the summary.</div>
+    </div>
+    <div class="grand-bar">
+      <div class="gb-left">
+        <div class="gb-label">Grand Total</div>
+        <div class="gb-words" id="grandWords"></div>
+      </div>
+      <div class="gb-amount" id="grandTotal">₹ 0</div>
+    </div>
+    <div class="terms-block no-print">
+      <label>Terms &amp; Conditions</label>
+      <textarea id="termsTA" placeholder="1. This quotation is valid for 30 days from the date of issue.&#10;2. Payment: 30% advance, 30% at plinth level, 30% at roof level, 10% on completion.&#10;3. Scope of work as per items listed above only. Rates are inclusive of material, labour and overheads.&#10;4. Any additional work or changes in specifications will be charged extra on mutual agreement.&#10;5. Variations in site dimensions may affect final quantities and will be measured at actuals.&#10;6. Material brand substitution with equivalent quality requires client approval.&#10;7. Project timeline to be agreed separately. Delays due to client decisions are excluded.&#10;8. All approvals, statutory fees and liaisoning charges are excluded from this BOQ."></textarea>
+    </div>
+  </div>
+</main>
+</div>
+
+<!-- RATE MODAL -->
+<div class="overlay" id="rateOverlay">
+  <div class="modal" style="max-width:820px">
+    <div class="modal-hdr">
+      <div>
+        <h3>Manage Rates — Kerala Construction 2025–26</h3>
+        <p>Adjust rates to match your district/market. Changes apply to newly added rows.</p>
+      </div>
+      <button class="modal-x" onclick="closeRates()">✕</button>
+    </div>
+    <div class="rtabs" id="rtabs"></div>
+    <div class="modal-body" id="rpanels"></div>
+    <div class="modal-foot">
+      <button class="btn btn-outline btn-sm" onclick="resetRates()">↺ Reset to Defaults</button>
+      <button class="btn btn-forest btn-sm" onclick="closeRates()">✓ Done</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════
+   KERALA BUILDING CONSTRUCTION RATES DATABASE
+   Sources: Kerala Govt. Economics & Statistics Q3 2024-25,
+   todaypricerates.com (April 2026), field-verified rates
+   for Alappuzha / Central Kerala district
+═══════════════════════════════════════════════════════════ */
+const RATE_DB = {
+
+  /* ── 1. SITE PREPARATION & EARTH WORK ── */
+  sp01:{s:"Site Preparation",name:"Site Clearing & Vegetation Removal",              unit:"sqft",rate:8,   note:"Incl. uprooting shrubs, stacking"},
+  sp02:{s:"Site Preparation",name:"Tree Cutting & Removal (small, dia < 30cm)",     unit:"nos", rate:2500, note:"Labour + disposal"},
+  sp03:{s:"Site Preparation",name:"Tree Cutting & Removal (large, dia > 30cm)",     unit:"nos", rate:6500, note:"Labour + disposal"},
+  sp04:{s:"Site Preparation",name:"Top Soil / Murrum Excavation (manual)",          unit:"cum", rate:480,  note:"Per cubic metre"},
+  sp05:{s:"Site Preparation",name:"Hard Rock Excavation (manual chiselling)",        unit:"cum", rate:2200, note:"Includes splitting"},
+  sp06:{s:"Site Preparation",name:"Machine Excavation (JCB/Poclain)",               unit:"hrs", rate:1800, note:"Per hour, 8hr shift ≈ ₹14400"},
+  sp07:{s:"Site Preparation",name:"Soil Filling & Compaction (per layer)",          unit:"cum", rate:380,  note:"Mechanical compaction"},
+  sp08:{s:"Site Preparation",name:"Dewatering / Pumping",                           unit:"day", rate:2200, note:"Diesel pump + labour"},
+  sp09:{s:"Site Preparation",name:"Temporary Site Boundary Fencing",                unit:"rft", rate:95,   note:"CGI sheet fencing"},
+  sp10:{s:"Site Preparation",name:"Debris / Earth Disposal (truck load)",           unit:"load",rate:3000, note:"8-tonne tipper per load"},
+
+  /* ── 2. FOUNDATION WORK ── */
+  fw01:{s:"Foundation",name:"Foundation Trench Excavation (manual)",                unit:"cum", rate:520,  note:"Up to 2m depth"},
+  fw02:{s:"Foundation",name:"Anti-termite Treatment (Pre-construction)",            unit:"sqft",rate:12,   note:"Foundation + plinth area"},
+  fw03:{s:"Foundation",name:"PCC (M15) Bed / Lean Concrete 100mm",                 unit:"sqft",rate:85,   note:"Incl. M-sand + aggregate + cement"},
+  fw04:{s:"Foundation",name:"Rubble Stone Masonry Foundation (CM 1:5)",            unit:"cum", rate:4800,  note:"Dressed laterite/quarry stone"},
+  fw05:{s:"Foundation",name:"RCC Strip Foundation (M20) – Supply+Labour",          unit:"cum", rate:9200,  note:"Incl. formwork"},
+  fw06:{s:"Foundation",name:"RCC Isolated Footing (M20) – Supply+Labour",          unit:"cum", rate:9800,  note:"Per cum concrete"},
+  fw07:{s:"Foundation",name:"RCC Raft Foundation (M25) – Supply+Labour",           unit:"cum", rate:11200, note:"Incl. waterproofing admixture"},
+  fw08:{s:"Foundation",name:"Pile Foundation – Bored Cast-in-situ (300mm dia)",    unit:"rft", rate:3200,  note:"Per running foot depth"},
+  fw09:{s:"Foundation",name:"TMT Steel Reinforcement (Fe 500D)",                   unit:"kg",  rate:82,    note:"Supply + bending + binding"},
+  fw10:{s:"Foundation",name:"Formwork (Shuttering) – Foundation",                  unit:"sqft",rate:38,    note:"Plywood + support"},
+  fw11:{s:"Foundation",name:"Waterproofing Treatment – Foundation (Dr.Fixit)",     unit:"sqft",rate:65,    note:"Brush coating + membrane"},
+  fw12:{s:"Foundation",name:"GI Pipe Earthing (Foundation Strip Earth)",           unit:"nos", rate:9500,  note:"1 pit, incl. copper plate"},
+
+  /* ── 3. SUBSTRUCTURE / PLINTH ── */
+  pl01:{s:"Substructure & Plinth",name:"Plinth Beam (RCC M20) – Supply+Labour",   unit:"rft", rate:520,   note:"Per running foot"},
+  pl02:{s:"Substructure & Plinth",name:"Plinth Wall – Laterite Stone Masonry",     unit:"sqft",rate:185,   note:"CM 1:4, dressed laterite"},
+  pl03:{s:"Substructure & Plinth",name:"Plinth Wall – AAC/Hollow Block Masonry",   unit:"sqft",rate:145,   note:"CM 1:5"},
+  pl04:{s:"Substructure & Plinth",name:"Plinth Protection / Apron (PCC 75mm)",    unit:"rft", rate:95,    note:"Around building"},
+  pl05:{s:"Substructure & Plinth",name:"Under-floor Sand Filling & Compaction",    unit:"sqft",rate:28,    note:"150mm thick"},
+  pl06:{s:"Substructure & Plinth",name:"DPC (Damp Proof Course) 25mm (1:2:4)",    unit:"sqft",rate:42,    note:"With waterproof compound"},
+  pl07:{s:"Substructure & Plinth",name:"Water Sump / Septic Tank Excavation",     unit:"cum", rate:480,   note:"Manual labour"},
+  pl08:{s:"Substructure & Plinth",name:"RCC Water Sump (4000L) – Supply+Labour",  unit:"nos", rate:65000, note:"Built-in type"},
+  pl09:{s:"Substructure & Plinth",name:"RCC Septic Tank (2-chamber)",              unit:"nos", rate:45000, note:"For 5-6 persons"},
+
+  /* ── 4. SUPERSTRUCTURE – RCC FRAME ── */
+  rc01:{s:"RCC Structure",name:"RCC Column (M25 grade) – Supply+Labour",          unit:"cum", rate:12500, note:"Incl. formwork + steel"},
+  rc02:{s:"RCC Structure",name:"RCC Beam (M20 grade) – Supply+Labour",            unit:"cum", rate:11800, note:"Floor/roof beam"},
+  rc03:{s:"RCC Structure",name:"RCC Roof Slab 125mm (M20) – Supply+Labour",       unit:"sqft",rate:350,   note:"Incl. steel, formwork, concrete"},
+  rc04:{s:"RCC Structure",name:"RCC Roof Slab 150mm (M25) – Supply+Labour",       unit:"sqft",rate:415,   note:"For commercial / heavy load"},
+  rc05:{s:"RCC Structure",name:"RCC Staircase – Supply+Labour",                   unit:"sqft",rate:620,   note:"Waist slab + step casting"},
+  rc06:{s:"RCC Structure",name:"RCC Lintel / Chajja (M20)",                       unit:"rft", rate:485,   note:"Per rft of opening"},
+  rc07:{s:"RCC Structure",name:"RCC Parapet Wall / Sunshade",                      unit:"rft", rate:380,   note:""},
+  rc08:{s:"RCC Structure",name:"TMT Steel Fe 500D – Supply+Bending+Fixing",       unit:"kg",  rate:82,    note:"Kairali/Sail/JSW TMT"},
+  rc09:{s:"RCC Structure",name:"Formwork / Shuttering – Slab",                    unit:"sqft",rate:45,    note:"Plywood shutter + support"},
+  rc10:{s:"RCC Structure",name:"Formwork / Shuttering – Column & Beam",           unit:"sqft",rate:55,    note:""},
+  rc11:{s:"RCC Structure",name:"RMC M20 Concrete (Ready Mix)",                    unit:"cum", rate:5200,  note:"From plant, incl. pumping"},
+  rc12:{s:"RCC Structure",name:"RMC M25 Concrete (Ready Mix)",                    unit:"cum", rate:5800,  note:""},
+  rc13:{s:"RCC Structure",name:"Concrete Curing – Jute/Hessian + Water",          unit:"sqft",rate:8,    note:"21 days"},
+  rc14:{s:"RCC Structure",name:"Waterproof Admixture (Fosroc/Cico) in concrete",  unit:"bag", rate:650,   note:"Per 50kg bag"},
+
+  /* ── 5. MASONRY / WALL WORK ── */
+  mw01:{s:"Masonry & Walls",name:"Laterite Stone Masonry 9\" Wall (CM 1:4)",      unit:"sqft",rate:225,   note:"Dressed laterite, including mortar"},
+  mw02:{s:"Masonry & Walls",name:"Red Clay Brick Masonry 9\" (CM 1:4)",           unit:"sqft",rate:195,   note:"Good quality country brick"},
+  mw03:{s:"Masonry & Walls",name:"Red Clay Brick Masonry 4.5\" (CM 1:4)",         unit:"sqft",rate:135,   note:"Partition wall"},
+  mw04:{s:"Masonry & Walls",name:"AAC Block Masonry 8\" (CM 1:5)",                unit:"sqft",rate:185,   note:"Autoclaved aerated concrete"},
+  mw05:{s:"Masonry & Walls",name:"AAC Block Masonry 4\" (CM 1:5)",                unit:"sqft",rate:138,   note:""},
+  mw06:{s:"Masonry & Walls",name:"Solid Cement Block 8\" (CM 1:4)",               unit:"sqft",rate:175,   note:"600×200×200mm block"},
+  mw07:{s:"Masonry & Walls",name:"Hollow Block Masonry 8\" (CM 1:5)",             unit:"sqft",rate:155,   note:""},
+  mw08:{s:"Masonry & Walls",name:"Cement Block Masonry 4\" (CM 1:5)",             unit:"sqft",rate:120,   note:""},
+  mw09:{s:"Masonry & Walls",name:"Fly Ash Brick Masonry 9\" (CM 1:5)",            unit:"sqft",rate:168,   note:""},
+  mw10:{s:"Masonry & Walls",name:"Gypsum Board Partition Wall (Metal Stud)",       unit:"sqft",rate:145,   note:"Single layer, 12.5mm board"},
+  mw11:{s:"Masonry & Walls",name:"Band Course / Sill Beam (RCC M15)",             unit:"rft", rate:185,   note:""},
+  mw12:{s:"Masonry & Walls",name:"Wall Chasing & Core Cutting (per metre)",        unit:"rft", rate:95,   note:"For electrical/plumbing"},
+
+  /* ── 6. ROOFING ── */
+  rf01:{s:"Roofing",name:"Mangalore Tiles Roofing (Supply+Fix)",                   unit:"sqft",rate:155,   note:"Including battens + nails"},
+  rf02:{s:"Roofing",name:"Concrete Roofing Tiles (Supply+Fix)",                    unit:"sqft",rate:120,   note:"Cement tiles"},
+  rf03:{s:"Roofing",name:"GI Roofing Sheet 0.5mm (Supply+Fix)",                   unit:"sqft",rate:95,    note:"Colour-coated"},
+  rf04:{s:"Roofing",name:"Metal Deck / PPGI Roofing Sheet (Supply+Fix)",           unit:"sqft",rate:145,   note:"Structural grade"},
+  rf05:{s:"Roofing",name:"Polycarbonate Sheet Roofing (Supply+Fix)",               unit:"sqft",rate:185,   note:"For car porch / pergola"},
+  rf06:{s:"Roofing",name:"GI Purlin / Rafter (Supply+Weld+Fix)",                  unit:"kg",  rate:110,   note:"For metal truss structure"},
+  rf07:{s:"Roofing",name:"Timber Rafter & Purlin (Wooden Truss)",                  unit:"cum", rate:42000, note:"Seasoned wood"},
+  rf08:{s:"Roofing",name:"Roof Waterproofing – SBR/Crystalline (Supply+Apply)",   unit:"sqft",rate:125,   note:"2 coats + screed"},
+  rf09:{s:"Roofing",name:"Roof Terrace Waterproofing (IPS Screed)",               unit:"sqft",rate:95,    note:"50mm PCC 1:2:4 + WP admixture"},
+  rf10:{s:"Roofing",name:"Terrace Garden Waterproofing (Torch-on Membrane)",       unit:"sqft",rate:185,   note:"APP bitumen membrane"},
+  rf11:{s:"Roofing",name:"Rain Water Gutter & Down Pipe (GI/UPVC)",               unit:"rft", rate:320,   note:"100mm dia"},
+  rf12:{s:"Roofing",name:"Skylight / Polycarbonate Dome (Supply+Fix)",             unit:"nos", rate:18000, note:"900×900mm standard"},
+
+  /* ── 7. PLASTERING & RENDERING ── */
+  pr01:{s:"Plastering & Rendering",name:"Internal Wall Plastering 12mm (1:4)",    unit:"sqft",rate:48,    note:"M-sand + cement, trowel finish"},
+  pr02:{s:"Plastering & Rendering",name:"External Wall Plastering 18mm (1:3)",    unit:"sqft",rate:62,    note:"Weather finish"},
+  pr03:{s:"Plastering & Rendering",name:"Ceiling Plastering 10mm",                unit:"sqft",rate:58,    note:"Overhead, mortar + labour"},
+  pr04:{s:"Plastering & Rendering",name:"Sponge / Rough Cast Finish (External)",  unit:"sqft",rate:75,    note:"For textured exterior"},
+  pr05:{s:"Plastering & Rendering",name:"Machine Plastering (GFRC/Spray)",        unit:"sqft",rate:55,    note:"Faster, uniform"},
+  pr06:{s:"Plastering & Rendering",name:"Gypsum Plaster Internal 10mm",           unit:"sqft",rate:68,    note:"Smooth finish, no putty needed"},
+  pr07:{s:"Plastering & Rendering",name:"Chicken Mesh Reinforcing (Anti-crack)",  unit:"sqft",rate:18,    note:"Over RCC-brick junction"},
+  pr08:{s:"Plastering & Rendering",name:"Tile Dado Plastering + Waterproofing",   unit:"sqft",rate:88,    note:"Bathroom/kitchen backing coat"},
+
+  /* ── 8. FLOORING ── */
+  fl01:{s:"Flooring",name:"Vitrified Tile Laying 600×600 Labour",                 unit:"sqft",rate:52,    note:"Cement mortar + grout"},
+  fl02:{s:"Flooring",name:"Vitrified Tile Laying 800×800 Labour",                 unit:"sqft",rate:62,    note:""},
+  fl03:{s:"Flooring",name:"Vitrified Tile Supply – Standard 600×600",             unit:"sqft",rate:75,    note:"Kajaria/Somany 1st quality"},
+  fl04:{s:"Flooring",name:"Vitrified Tile Supply – Premium 800×800",              unit:"sqft",rate:125,   note:"Johnson/Asian Granito"},
+  fl05:{s:"Flooring",name:"Ceramic Tile Laying Labour",                           unit:"sqft",rate:45,    note:"Wall/floor ceramic"},
+  fl06:{s:"Flooring",name:"Ceramic Tile Supply – Standard",                       unit:"sqft",rate:52,    note:"Bathroom/kitchen"},
+  fl07:{s:"Flooring",name:"Granite Flooring Supply (Kotah/Black Galaxy)",         unit:"sqft",rate:230,   note:"18mm polished slab"},
+  fl08:{s:"Flooring",name:"Granite Flooring Laying Labour + Polish",              unit:"sqft",rate:72,    note:""},
+  fl09:{s:"Flooring",name:"Marble Flooring Supply (Rajasthani White)",            unit:"sqft",rate:420,   note:"18mm polished"},
+  fl10:{s:"Flooring",name:"Marble Flooring Laying Labour + Polish",               unit:"sqft",rate:85,    note:""},
+  fl11:{s:"Flooring",name:"Kadappa / Kota Stone Flooring (Supply+Lay)",           unit:"sqft",rate:195,   note:"Natural stone"},
+  fl12:{s:"Flooring",name:"Terrace / Balcony Anti-skid Tile Laying",             unit:"sqft",rate:58,    note:"Slip resistant"},
+  fl13:{s:"Flooring",name:"Tile Adhesive Fix Labour+Adhesive",                    unit:"sqft",rate:68,    note:"For adhesive method"},
+  fl14:{s:"Flooring",name:"Tile Skirting Labour (per rft)",                       unit:"rft", rate:42,    note:""},
+  fl15:{s:"Flooring",name:"PCC Flooring 50mm (1:2:4) – Industrial",               unit:"sqft",rate:48,    note:"For parking/godown"},
+  fl16:{s:"Flooring",name:"Epoxy Flooring 3mm Self-levelling",                    unit:"sqft",rate:195,   note:"Commercial/industrial"},
+  fl17:{s:"Flooring",name:"Oxide / Cement Finish Flooring",                       unit:"sqft",rate:65,    note:"Traditional Kerala style"},
+  fl18:{s:"Flooring",name:"Tile Grout – Colour Grout (Supply+Apply)",             unit:"sqft",rate:18,    note:"Fosroc/Asian Grout"},
+
+  /* ── 9. DOORS & WINDOWS ── */
+  dw01:{s:"Doors & Windows",name:"Teak Wood Door Frame Supply (2nd quality)",     unit:"nos", rate:6500,  note:"3×7 ft opening"},
+  dw02:{s:"Doors & Windows",name:"Teak Wood Door Frame Supply (1st quality)",     unit:"nos", rate:9800,  note:""},
+  dw03:{s:"Doors & Windows",name:"Teak Wood Panel Door Shutter Supply",           unit:"sqft",rate:980,   note:"38mm thick panel door"},
+  dw04:{s:"Doors & Windows",name:"Flush Door Shutter – Solid Core (HDF)",        unit:"sqft",rate:365,   note:"35mm thick"},
+  dw05:{s:"Doors & Windows",name:"UPVC Door (Supply+Fix)",                        unit:"sqft",rate:680,   note:"With hardware"},
+  dw06:{s:"Doors & Windows",name:"MS Door Frame – 35×35×3mm (Supply+Fix)",       unit:"nos", rate:4200,  note:"Ground floor main door"},
+  dw07:{s:"Doors & Windows",name:"Door Fitting Labour (Frame+Shutter+Hardware)",  unit:"nos", rate:3500,  note:"Incl. hinges, handles, locks"},
+  dw08:{s:"Doors & Windows",name:"Door Lock Set – Standard Mortice",              unit:"nos", rate:1800,  note:"Yale/Godrej"},
+  dw09:{s:"Doors & Windows",name:"Door Lock Set – Digital Smart Lock",            unit:"nos", rate:12000, note:"Smart/fingerprint"},
+  dw10:{s:"Doors & Windows",name:"Aluminium Sliding Window (Supply+Fix)",         unit:"sqft",rate:465,   note:"3-track, powder coated"},
+  dw11:{s:"Doors & Windows",name:"UPVC Casement Window (Supply+Fix)",             unit:"sqft",rate:620,   note:"Double glass option extra"},
+  dw12:{s:"Doors & Windows",name:"UPVC Sliding Window (Supply+Fix)",              unit:"sqft",rate:575,   note:""},
+  dw13:{s:"Doors & Windows",name:"MS Window Grill (Supply+Weld+Fix)",             unit:"sqft",rate:280,   note:"12mm MS bar"},
+  dw14:{s:"Doors & Windows",name:"SS Window Grill (Supply+Fix)",                  unit:"sqft",rate:385,   note:"SS 304 grade"},
+  dw15:{s:"Doors & Windows",name:"Teak Wood Window Frame & Shutter (Supply+Fix)", unit:"sqft",rate:1100,  note:"Fixed + openable"},
+  dw16:{s:"Doors & Windows",name:"Sliding/Folding Glass Partition (Supply+Fix)",  unit:"sqft",rate:480,   note:"8mm toughened glass"},
+  dw17:{s:"Doors & Windows",name:"Wire Mesh / Fly Mesh Mosquito Net (Fix)",       unit:"sqft",rate:95,    note:"Fibre mesh"},
+  dw18:{s:"Doors & Windows",name:"Roller Shutter (Commercial) – Supply+Fix",      unit:"sqft",rate:380,   note:"GI/SS lath"},
+
+  /* ── 10. ELECTRICAL WORKS ── */
+  el01:{s:"Electrical",name:"Concealed Conduit Wiring (per rft)",                 unit:"rft", rate:95,    note:"1.5 sqmm PVC wire + PVC conduit"},
+  el02:{s:"Electrical",name:"Electrical Point – 6A Plug/Light (wiring+conduit)",  unit:"nos", rate:1400,  note:"Incl. wire + conduit"},
+  el03:{s:"Electrical",name:"Electrical Point – 15A (AC/Geyser/Motor)",           unit:"nos", rate:1850,  note:""},
+  el04:{s:"Electrical",name:"Light Point – Concealed Conduit",                    unit:"nos", rate:950,   note:""},
+  el05:{s:"Electrical",name:"Fan Point",                                           unit:"nos", rate:1050,  note:""},
+  el06:{s:"Electrical",name:"Exhaust Fan Point",                                  unit:"nos", rate:980,   note:""},
+  el07:{s:"Electrical",name:"MCB Single Pole (Legrand/Schneider/ABB)",            unit:"nos", rate:480,   note:""},
+  el08:{s:"Electrical",name:"MCB Double Pole",                                    unit:"nos", rate:760,   note:""},
+  el09:{s:"Electrical",name:"RCCB / ELCB 30mA (Earth Leakage)",                  unit:"nos", rate:2400,  note:""},
+  el10:{s:"Electrical",name:"Distribution Board (DB Box) 8-way",                 unit:"nos", rate:5800,  note:"With MCBs"},
+  el11:{s:"Electrical",name:"Distribution Board 12-way",                         unit:"nos", rate:7500,  note:"With MCBs+RCCB"},
+  el12:{s:"Electrical",name:"Main Panel / SDB with MCCB",                        unit:"nos", rate:18000, note:"Commercial grade"},
+  el13:{s:"Electrical",name:"Modular Switch Plate – Anchor Roma/Havells",         unit:"nos", rate:380,   note:"Per 4-module plate"},
+  el14:{s:"Electrical",name:"Modular Switch Plate – Legrand Myrius",              unit:"nos", rate:720,   note:""},
+  el15:{s:"Electrical",name:"Premium Switch – Legrand Arteor / ABB Zencelo",     unit:"nos", rate:1200,  note:""},
+  el16:{s:"Electrical",name:"LED Downlight 12W Supply+Fix",                       unit:"nos", rate:950,   note:"Philips/Syska"},
+  el17:{s:"Electrical",name:"Ceiling Fan Supply+Fix (Crompton/Orient)",           unit:"nos", rate:3500,  note:"1200mm, BEE 5-star"},
+  el18:{s:"Electrical",name:"Exhaust Fan Supply+Fix",                             unit:"nos", rate:2800,  note:"150mm dia"},
+  el19:{s:"Electrical",name:"Split AC Wiring + Copper Pipe (3m)",                unit:"nos", rate:3200,  note:"Incl. drain pipe"},
+  el20:{s:"Electrical",name:"LAN / CAT6 Data Point",                             unit:"nos", rate:1400,  note:""},
+  el21:{s:"Electrical",name:"CCTV / IP Camera Point (Conduit+CAT6)",             unit:"nos", rate:1600,  note:""},
+  el22:{s:"Electrical",name:"TV / Coaxial Point",                                 unit:"nos", rate:1000,  note:""},
+  el23:{s:"Electrical",name:"Doorbell Point + Provision",                         unit:"nos", rate:850,   note:""},
+  el24:{s:"Electrical",name:"DG/Generator Connection Point",                      unit:"nos", rate:4500,  note:"Commercial"},
+  el25:{s:"Electrical",name:"Solar Panel Wiring + Inverter Connection",           unit:"kwp", rate:8500,  note:"Per kWp solar capacity"},
+  el26:{s:"Electrical",name:"Earthing Pit – GI Pipe Type",                       unit:"nos", rate:9500,  note:"Complete with CI cover"},
+  el27:{s:"Electrical",name:"BESCOM/KSEB Service Connection Charges",             unit:"lump",rate:45000, note:"Approx. for 3-phase"},
+  el28:{s:"Electrical",name:"Electrical Testing & Commissioning",                 unit:"lump",rate:8500,  note:"Full system"},
+
+  /* ── 11. PLUMBING WORKS ── */
+  wk01:{s:"Plumbing & Sanitation",name:"CPVC Concealed Water Supply Pipe 15mm (per rft)",  unit:"rft",rate:320,  note:"Incl. fittings + fixing"},
+  wk02:{s:"Plumbing & Sanitation",name:"CPVC Concealed Water Supply Pipe 20mm (per rft)",  unit:"rft",rate:385,  note:""},
+  wk03:{s:"Plumbing & Sanitation",name:"UPVC Drainage Pipe 4\" (per rft)",                  unit:"rft",rate:210,  note:"Soil/waste pipe"},
+  wk04:{s:"Plumbing & Sanitation",name:"UPVC Drainage Pipe 2\" (per rft)",                  unit:"rft",rate:155,  note:""},
+  wk05:{s:"Plumbing & Sanitation",name:"Floor Trap PVC + Gratings",                         unit:"nos",rate:750,  note:""},
+  wk06:{s:"Plumbing & Sanitation",name:"Nahani Trap / SS Floor Drain",                       unit:"nos",rate:950,  note:""},
+  wk07:{s:"Plumbing & Sanitation",name:"Wash Basin Supply + Fixing (Parryware/Hindware)",   unit:"nos",rate:7500, note:"Incl. CP fittings"},
+  wk08:{s:"Plumbing & Sanitation",name:"Wash Basin Supply + Fixing (Kohler/Jaquar)",        unit:"nos",rate:18000,note:"Premium"},
+  wk09:{s:"Plumbing & Sanitation",name:"EWC Suite Supply+Fix (Parryware/CERA)",             unit:"nos",rate:9500, note:"With cistern + seat cover"},
+  wk10:{s:"Plumbing & Sanitation",name:"EWC Suite Supply+Fix (Kohler/Duravit Premium)",     unit:"nos",rate:22000,note:""},
+  wk11:{s:"Plumbing & Sanitation",name:"Wall-Hung WC Supply+Fix (Grohe/Duravit)",           unit:"nos",rate:32000,note:"With concealed cistern"},
+  wk12:{s:"Plumbing & Sanitation",name:"Bathtub Fixing Labour",                             unit:"nos",rate:5000, note:""},
+  wk13:{s:"Plumbing & Sanitation",name:"Shower Cubicle with Enclosure (Supply+Fix)",        unit:"nos",rate:28000,note:"Toughened glass frame"},
+  wk14:{s:"Plumbing & Sanitation",name:"CP Fittings Set – Jaquar/CERA (Tap+Shower)",       unit:"nos",rate:3500, note:""},
+  wk15:{s:"Plumbing & Sanitation",name:"CP Fittings Set – Grohe/Hansgrohe (Premium)",      unit:"nos",rate:9500, note:""},
+  wk16:{s:"Plumbing & Sanitation",name:"Overhead Tank 1000L HDPE Supply+Fix",               unit:"nos",rate:12500,note:"Sintex 3-layer"},
+  wk17:{s:"Plumbing & Sanitation",name:"Electric Geyser 15L Supply+Fix",                    unit:"nos",rate:8500, note:"V-Guard/Bajaj"},
+  wk18:{s:"Plumbing & Sanitation",name:"Solar Water Heater 100L Supply+Fix",                unit:"nos",rate:28000,note:"Flat plate collector"},
+  wk19:{s:"Plumbing & Sanitation",name:"Kitchen Tap / Pillar Cock Supply+Fix",              unit:"nos",rate:2200, note:"Jaquar/CERA"},
+  wk20:{s:"Plumbing & Sanitation",name:"Sewage Treatment Plant (STP) 2KLD",                unit:"nos",rate:180000,note:"Compact bio-digester"},
+  wk21:{s:"Plumbing & Sanitation",name:"Rainwater Harvesting Pit (Soak Pit)",              unit:"nos",rate:18000, note:"Rubble filled pit"},
+  wk22:{s:"Plumbing & Sanitation",name:"Pressure Test & Commissioning (Full system)",       unit:"lump",rate:4500, note:""},
+
+  /* ── 12. FINISHING – WALL PLASTERING & PAINTING ── */
+  pt01:{s:"Painting & Finishing",name:"Wall Putty 2 Coats (Asian/Birla White)",            unit:"sqft",rate:20,   note:"Supply+Labour"},
+  pt02:{s:"Painting & Finishing",name:"Primer Coat – Wall (Acrylic Primer)",               unit:"sqft",rate:10,   note:""},
+  pt03:{s:"Painting & Finishing",name:"Interior Emulsion – Standard 2 Coats",              unit:"sqft",rate:25,   note:"Asian Tractor/Berger Bison"},
+  pt04:{s:"Painting & Finishing",name:"Interior Emulsion – Premium (Royale/Silk)",          unit:"sqft",rate:40,   note:"Asian Royale / Berger Silk"},
+  pt05:{s:"Painting & Finishing",name:"Exterior Emulsion – 2 Coats (Weatherproof)",        unit:"sqft",rate:35,   note:"Asian Apex / Berger WeatherCoat"},
+  pt06:{s:"Painting & Finishing",name:"Texture Paint – Plain Roller",                      unit:"sqft",rate:60,   note:""},
+  pt07:{s:"Painting & Finishing",name:"Texture Paint – Sand / Designer Finish",            unit:"sqft",rate:95,   note:""},
+  pt08:{s:"Painting & Finishing",name:"Epoxy Paint – Wet Areas / Bathrooms",               unit:"sqft",rate:88,   note:"2-part epoxy"},
+  pt09:{s:"Painting & Finishing",name:"Red Oxide + Enamel on MS Grill/Frame",              unit:"sqft",rate:32,   note:""},
+  pt10:{s:"Painting & Finishing",name:"PU / Polyurethane Coating on Wood",                  unit:"sqft",rate:72,   note:"Satin/Matt finish"},
+  pt11:{s:"Painting & Finishing",name:"Stucco / Venetian Plaster Finish",                  unit:"sqft",rate:155,  note:"2–3 coat premium finish"},
+  pt12:{s:"Painting & Finishing",name:"Waterproof Exterior Paint (Dr.Fixit/Kansai)",       unit:"sqft",rate:42,   note:""},
+
+  /* ── 13. CARPENTRY & WOODWORK ── */
+  cw01:{s:"Carpentry & Woodwork",name:"Modular Kitchen – Plywood + Laminate",              unit:"sqft",rate:980,  note:"19mm BWP, floor+wall units"},
+  cw02:{s:"Carpentry & Woodwork",name:"Modular Kitchen – Acrylic/PU Finish",               unit:"sqft",rate:1250, note:"High gloss"},
+  cw03:{s:"Carpentry & Woodwork",name:"Kitchen Counter Top – Granite Supply+Fix+Polish",   unit:"sqft",rate:355,  note:"Kashmir White/Black Galaxy"},
+  cw04:{s:"Carpentry & Woodwork",name:"Wardrobe – Plywood + Laminate (Swing)",             unit:"sqft",rate:820,  note:"With soft-close hardware"},
+  cw05:{s:"Carpentry & Woodwork",name:"Wardrobe – Plywood + Laminate (Sliding)",           unit:"sqft",rate:920,  note:"Mirror or glass shutter"},
+  cw06:{s:"Carpentry & Woodwork",name:"TV Unit + Wall Panel (Ply+Lam)",                    unit:"sqft",rate:1250, note:"With LED provision"},
+  cw07:{s:"Carpentry & Woodwork",name:"Pooja Unit (Ply + MDF Carving + Backlit)",          unit:"nos", rate:22000,note:""},
+  cw08:{s:"Carpentry & Woodwork",name:"Staircase Railing – MS (Supply+Weld+Fix)",          unit:"rft", rate:1850, note:"With SS top rail"},
+  cw09:{s:"Carpentry & Woodwork",name:"Staircase Railing – SS (Supply+Fix)",               unit:"rft", rate:2800, note:"SS 304, pipe rail"},
+  cw10:{s:"Carpentry & Woodwork",name:"Staircase Railing – Teak Wood",                     unit:"rft", rate:3200, note:"Teak balusters + rail"},
+  cw11:{s:"Carpentry & Woodwork",name:"Loft / Overhead Storage (Plywood)",                 unit:"sqft",rate:420,  note:""},
+  cw12:{s:"Carpentry & Woodwork",name:"Floating Shelf (MDF/Ply per rft)",                  unit:"rft", rate:1050, note:""},
+  cw13:{s:"Carpentry & Woodwork",name:"Teak Handrail on Staircase Wall",                   unit:"rft", rate:1450, note:"Wall-fixed"},
+  cw14:{s:"Carpentry & Woodwork",name:"Main Gate – MS Fabrication Supply+Fix",             unit:"nos", rate:32000,note:"12ft wide, 6ft high"},
+  cw15:{s:"Carpentry & Woodwork",name:"Compound Gate – Pedestrian (MS/SS)",                unit:"nos", rate:12500,note:"4ft wide"},
+  cw16:{s:"Carpentry & Woodwork",name:"Car Porch – RCC/Steel Canopy Structure",             unit:"sqft",rate:380,  note:"Incl. columns + slab"},
+  cw17:{s:"Carpentry & Woodwork",name:"Pergola – Steel / Timber (Supply+Fix)",             unit:"sqft",rate:650,  note:""},
+  cw18:{s:"Carpentry & Woodwork",name:"False Ceiling – Gypsum Board (MS Frame)",           unit:"sqft",rate:95,   note:"12.5mm board + joints"},
+  cw19:{s:"Carpentry & Woodwork",name:"False Ceiling – PVC Panel",                         unit:"sqft",rate:65,   note:""},
+  cw20:{s:"Carpentry & Woodwork",name:"False Ceiling – Armstrong Grid 600×600",            unit:"sqft",rate:80,   note:"Office type"},
+
+  /* ── 14. EXTERNAL WORKS ── */
+  ew01:{s:"External Works",name:"Compound Wall – Laterite (120mm) 5ft height",            unit:"rft", rate:2800,  note:"Per running foot length"},
+  ew02:{s:"External Works",name:"Compound Wall – Brick Plastered 9\" (5ft)",              unit:"rft", rate:2400,  note:""},
+  ew03:{s:"External Works",name:"Compound Wall – RCC/Precast Panel",                       unit:"rft", rate:3500,  note:""},
+  ew04:{s:"External Works",name:"Cement Concrete Pathway / Driveway 100mm",               unit:"sqft",rate:95,    note:"1:2:4 PCC with mesh"},
+  ew05:{s:"External Works",name:"Paving Block / Interlock Tile Pathway (Supply+Lay)",     unit:"sqft",rate:155,   note:"60mm paver"},
+  ew06:{s:"External Works",name:"Granite / Kadappa Step Supply+Fix (External)",           unit:"nos", rate:2200,  note:"Per step"},
+  ew07:{s:"External Works",name:"External Drain (Kerb Drain) 300mm wide",                 unit:"rft", rate:480,   note:"RCC U-type drain"},
+  ew08:{s:"External Works",name:"Borewell (4\" dia) per foot depth",                      unit:"rft", rate:580,   note:"Diamond bit drilling"},
+  ew09:{s:"External Works",name:"Submersible Pump 0.5HP Supply+Fix",                      unit:"nos", rate:12500, note:"Grundfos/V-Guard"},
+  ew10:{s:"External Works",name:"Car Porch Pavement / Tile Lay",                          unit:"sqft",rate:165,   note:"Anti-skid outdoor tile"},
+  ew11:{s:"External Works",name:"Landscape Soil Filling / Garden Bed",                    unit:"cum", rate:1800,  note:"Red soil + composted"},
+  ew12:{s:"External Works",name:"Septic Tank – RCC Brick (3-chamber) Construction",       unit:"nos", rate:55000, note:"For 6-8 persons"},
+  ew13:{s:"External Works",name:"Soakpit / Leachfield Construction",                       unit:"nos", rate:18000, note:"Rubble filled pit"},
+  ew14:{s:"External Works",name:"Name Board / House Number Plate (SS + Acrylic)",         unit:"nos", rate:8500,  note:""},
+  ew15:{s:"External Works",name:"Temporary Electric Connection (EB)",                      unit:"lump",rate:12000, note:"During construction"},
+
+  /* ── 15. APPROVALS & MISCELLANEOUS ── */
+  am01:{s:"Approvals & Misc",name:"Building Permit / Panchayath Approval Fee",           unit:"lump",rate:25000, note:"Approx. for 200sqm; varies"},
+  am02:{s:"Approvals & Misc",name:"Structural Design Fees (Civil Engineer)",              unit:"lump",rate:18000, note:"For 1500–2000 sqft"},
+  am03:{s:"Approvals & Misc",name:"Architect / Design Consultancy Fees",                  unit:"sqft",rate:85,    note:"Per sqft built-up area"},
+  am04:{s:"Approvals & Misc",name:"Soil Investigation / Bore Log Report",                 unit:"nos", rate:15000, note:"2-3 bore points"},
+  am05:{s:"Approvals & Misc",name:"Survey / Setting Out Charges",                         unit:"lump",rate:8500,  note:""},
+  am06:{s:"Approvals & Misc",name:"Temporary Site Office / Store Setup",                  unit:"lump",rate:22000, note:"CGI shed + locks"},
+  am07:{s:"Approvals & Misc",name:"Labour Shed / Quarters (Temporary)",                   unit:"nos", rate:18000, note:"Corrugated sheet shed"},
+  am08:{s:"Approvals & Misc",name:"Scaffolding / Staging (per floor)",                    unit:"sqft",rate:18,    note:"Per sqft plan area per floor"},
+  am09:{s:"Approvals & Misc",name:"Cube Testing / Concrete QC (per set)",                unit:"nos", rate:1500,  note:"3 cubes per pour"},
+  am10:{s:"Approvals & Misc",name:"Site Safety Measures (Net, Helmets, Signage)",         unit:"lump",rate:15000, note:"As per BOCW Act"},
+  am11:{s:"Approvals & Misc",name:"Project Completion Certificate / Occupancy",           unit:"lump",rate:8500,  note:"Local body fee"},
+  am12:{s:"Approvals & Misc",name:"Contingency Provision (3–5%)",                         unit:"lump",rate:50000, note:"Adjust to project total"},
+};
+
+/* ═══════════════════════════════════════════════════════════
+   SECTION DEFINITIONS (in build sequence)
+═══════════════════════════════════════════════════════════ */
+const SECS = [
+  {id:"sp", name:"Site Preparation",         icon:"🏗️"},
+  {id:"fw", name:"Foundation",               icon:"⛏️"},
+  {id:"pl", name:"Substructure & Plinth",    icon:"🧱"},
+  {id:"rc", name:"RCC Structure",            icon:"🏢"},
+  {id:"mw", name:"Masonry & Walls",          icon:"🪨"},
+  {id:"rf", name:"Roofing",                  icon:"🏠"},
+  {id:"pr", name:"Plastering & Rendering",   icon:"🖊️"},
+  {id:"fl", name:"Flooring",                 icon:"▭"},
+  {id:"dw", name:"Doors & Windows",          icon:"🚪"},
+  {id:"el", name:"Electrical",               icon:"⚡"},
+  {id:"wk", name:"Plumbing & Sanitation",    icon:"🔧"},
+  {id:"pt", name:"Painting & Finishing",     icon:"🎨"},
+  {id:"cw", name:"Carpentry & Woodwork",     icon:"🪵"},
+  {id:"ew", name:"External Works",           icon:"🌿"},
+  {id:"am", name:"Approvals & Misc",         icon:"📋"},
+];
+
+/* ═══════════════════════════════════════════════════════════
+   STATE
+═══════════════════════════════════════════════════════════ */
+let rates   = JSON.parse(JSON.stringify(RATE_DB));
+let myRates = {};
+let secRows = {};
+SECS.forEach(s => secRows[s.id] = []);
+let rid = 1;
+let activeMode = {};
+SECS.forEach(s => activeMode[s.id] = 'preset');
+let activeRateTab = 'sp';
+
+document.getElementById('f_date').value = new Date().toISOString().split('T')[0];
+document.getElementById('f_ref').value  = 'CBOQ-' + new Date().getFullYear() + '-001';
+
+/* ═══════════════════════════════════════════════════════════
+   BUILD SIDEBAR NAV
+═══════════════════════════════════════════════════════════ */
+function buildNav(){
+  document.getElementById('secNav').innerHTML = SECS.map(s => {
+    const n = secRows[s.id].length;
+    return `<div class="sn-item${n>0?' has-items':''}" id="nav_${s.id}" onclick="jumpTo('${s.id}')">
+      <span class="sn-icon">${s.icon}</span>
+      <span class="sn-label">${s.name}</span>
+      <span class="sn-count" id="nc_${s.id}">${n}</span>
+    </div>`;
+  }).join('');
+}
+
+function jumpTo(id){
+  document.getElementById('sc_'+id)?.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+/* ═══════════════════════════════════════════════════════════
+   BUILD SECTIONS
+═══════════════════════════════════════════════════════════ */
+function buildSections(){
+  document.getElementById('sectionsWrap').innerHTML =
+    SECS.map(s => {
+      const total = sectionTotal(s.id);
+      const isOpen = secRows[s.id].length > 0;
+      return `
+      <div class="sec-card" id="sc_${s.id}">
+        <div class="sec-head" onclick="toggleSec('${s.id}')">
+          <div class="sh-left">
+            <div class="sh-icon-wrap">${s.icon}</div>
+            <div>
+              <div class="sh-title">${s.name}</div>
+              <div class="sh-meta">${secRows[s.id].length} item${secRows[s.id].length!==1?'s':''} · Kerala 2025–26 rates</div>
+            </div>
+          </div>
+          <div class="sh-right">
+            ${total>0?`<span class="sh-total">${fmt(total)}</span>`:''}
+            <span class="sh-toggle${isOpen?' open':''}" id="tog_${s.id}">▼</span>
+          </div>
+        </div>
+        <div class="sec-body${!isOpen?' collapsed':''}" id="sb_${s.id}">
+          <div class="tbl-scroll">
+            <table class="boq-tbl">
+              <thead><tr>
+                <th class="c" style="width:34px">#</th>
+                <th>Description of Work</th>
+                <th style="width:68px">Unit</th>
+                <th class="r" style="width:90px">Qty</th>
+                <th class="r" style="width:90px">Rate (₹)</th>
+                <th class="r" style="width:110px">Amount (₹)</th>
+                <th style="width:38px"></th>
+              </tr></thead>
+              <tbody id="tb_${s.id}">${renderRows(s.id)}</tbody>
+            </table>
+          </div>
+          <div class="add-area">
+            <div class="add-mode-row">
+              <button class="mode-btn${activeMode[s.id]==='preset'?' active':''}" onclick="switchMode('${s.id}','preset')">+ From Preset</button>
+              <button class="mode-btn${activeMode[s.id]==='custom'?' active':''}" onclick="switchMode('${s.id}','custom')">+ Custom Item</button>
+            </div>
+            <div id="pp_${s.id}" class="preset-panel" style="${activeMode[s.id]==='custom'?'display:none':''}">
+              <select class="preset-sel" id="ps_${s.id}">${buildPresetOptions(s.id)}</select>
+              <button class="btn btn-forest btn-sm" onclick="addPreset('${s.id}')">Add Item</button>
+            </div>
+            <div id="cp_${s.id}" class="custom-panel" style="${activeMode[s.id]==='custom'?'display:block':''}">
+              <div class="custom-grid">
+                <div class="cf-wrap"><label>Description</label><input class="cf-input" id="cd_${s.id}" placeholder="Work description"></div>
+                <div class="cf-wrap"><label>Unit</label>
+                  <select class="cf-select" id="cu_${s.id}">
+                    <option>sqft</option><option>sqm</option><option>rft</option><option>cum</option>
+                    <option>nos</option><option>kg</option><option>ton</option><option>bag</option>
+                    <option>load</option><option>day</option><option>hrs</option><option>kwp</option><option>lump</option>
+                  </select>
+                </div>
+                <div class="cf-wrap"><label>Qty</label><input class="cf-input mono" id="cq_${s.id}" type="number" placeholder="0" step="0.01"></div>
+                <div class="cf-wrap"><label>Rate (₹)</label><input class="cf-input mono" id="cr_${s.id}" type="number" placeholder="0" step="1"></div>
+                <button class="btn btn-forest btn-sm" style="margin-top:auto" onclick="addCustom('${s.id}')">Add</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>`;
+    }).join('');
+}
+
+function buildPresetOptions(sid){
+  const sName = SECS.find(s=>s.id===sid)?.name || '';
+  const items = Object.entries(rates).filter(([k,v]) => v.s === sName);
+  if(!items.length) return '<option value="">— no presets —</option>';
+  return '<option value="">— select item —</option>' +
+    items.map(([k,v]) => `<option value="${k}">${v.name} (${v.unit} · ₹${v.rate.toLocaleString('en-IN')})</option>`).join('');
+}
+
+function renderRows(sid){
+  if(!secRows[sid].length) return `<tr><td colspan="7" style="padding:18px;text-align:center;color:var(--faint);font-size:.8rem">No items yet — add from preset or custom below.</td></tr>`;
+  return secRows[sid].map((r,i) => `
+    <tr id="${r.id}" class="${r.custom?'is-custom':''}">
+      <td class="row-num">${i+1}</td>
+      <td>
+        <input class="ti desc" value="${esc(r.desc)}" oninput="updRow('${r.id}','desc',this.value)">
+        ${r.custom?'<span class="tag-custom">custom</span>':''}
+      </td>
+      <td><select class="t-sel" onchange="updRow('${r.id}','unit',this.value)">${unitOptions(r.unit)}</select></td>
+      <td><input class="ti mono" style="width:80px" type="number" value="${r.qty}" step="0.01" oninput="updRow('${r.id}','qty',this.value)"></td>
+      <td><input class="ti mono" style="width:82px" type="number" value="${r.rate}" step="1" oninput="updRow('${r.id}','rate',this.value)"></td>
+      <td class="td-amount" id="am_${r.id}">${fmt(r.qty*r.rate)}</td>
+      <td><button class="btn btn-danger btn-xs" onclick="delRow('${r.id}','${sid}')">✕</button></td>
+    </tr>`).join('');
+}
+
+function unitOptions(sel){
+  return ['sqft','sqm','rft','cum','nos','kg','ton','bag','load','day','hrs','kwp','lump']
+    .map(u=>`<option${u===sel?' selected':''}>${u}</option>`).join('');
+}
+
+function toggleSec(sid){
+  const body = document.getElementById('sb_'+sid);
+  const tog  = document.getElementById('tog_'+sid);
+  body.classList.toggle('collapsed');
+  tog.classList.toggle('open');
+}
+
+function switchMode(sid, mode){
+  activeMode[sid] = mode;
+  document.querySelectorAll('#sc_'+sid+' .mode-btn').forEach((b,i)=>{
+    b.classList.toggle('active', (i===0&&mode==='preset')||(i===1&&mode==='custom'));
+  });
+  document.getElementById('pp_'+sid).style.display = mode==='preset'?'':'none';
+  document.getElementById('cp_'+sid).style.display = mode==='custom'?'block':'none';
+}
+
+function addPreset(sid){
+  const sel = document.getElementById('ps_'+sid);
+  const key = sel.value;
+  if(!key) return;
+  const r = rates[key];
+  if(!r) return;
+  const row = {id:'r'+rid++, desc:r.name, unit:r.unit, qty:1, rate:r.rate, custom:false};
+  secRows[sid].push(row);
+  sel.value = '';
+  refreshSection(sid);
+}
+
+function addCustom(sid){
+  const desc = document.getElementById('cd_'+sid).value.trim();
+  if(!desc) return;
+  const unit = document.getElementById('cu_'+sid).value;
+  const qty  = parseFloat(document.getElementById('cq_'+sid).value)||1;
+  const rate = parseFloat(document.getElementById('cr_'+sid).value)||0;
+  secRows[sid].push({id:'r'+rid++, desc, unit, qty, rate, custom:true});
+  document.getElementById('cd_'+sid).value='';
+  document.getElementById('cq_'+sid).value='';
+  document.getElementById('cr_'+sid).value='';
+  refreshSection(sid);
+}
+
+function delRow(rowId, sid){
+  secRows[sid] = secRows[sid].filter(r=>r.id!==rowId);
+  refreshSection(sid);
+}
+
+function updRow(rowId, field, val){
+  for(const sid of Object.keys(secRows)){
+    const r = secRows[sid].find(r=>r.id===rowId);
+    if(r){
+      if(field==='qty' || field==='rate') r[field]=parseFloat(val)||0;
+      else r[field]=val;
+      const amEl = document.getElementById('am_'+rowId);
+      if(amEl) amEl.textContent = fmt(r.qty*r.rate);
+      recalc();
+      return;
+    }
+  }
+}
+
+function refreshSection(sid){
+  document.getElementById('tb_'+sid).innerHTML = renderRows(sid);
+  // rebuild preset options to keep counts right
+  const ps = document.getElementById('ps_'+sid);
+  if(ps) ps.innerHTML = buildPresetOptions(sid);
+  buildNav();
+  recalc();
+}
+
+function sectionTotal(sid){
+  return (secRows[sid]||[]).reduce((s,r)=>s+r.qty*r.rate,0);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   RECALCULATE
+═══════════════════════════════════════════════════════════ */
+function recalc(){
+  const gstOn   = document.getElementById('gstOn').checked;
+  const gstRate = parseFloat(document.getElementById('gstRate').value)||18;
+  let grandSub=0, grandGst=0, grandTotal=0;
+
+  // Sidebar totals
+  const totHTML = SECS.map(s => {
+    const sub = sectionTotal(s.id);
+    if(!sub) return '';
+    const gst   = gstOn ? sub*gstRate/100 : 0;
+    const total = sub+gst;
+    grandSub   += sub;
+    grandGst   += gst;
+    grandTotal += total;
+    return `<div class="tot-item">
+      <span>${s.icon} ${s.name}</span>
+      <strong>${fmt(total)}</strong>
+    </div>`;
+  }).join('');
+  document.getElementById('sbTots').innerHTML = totHTML || '<div style="font-size:.74rem;color:var(--faint)">No items added yet.</div>';
+  document.getElementById('sbGrand').textContent = fmt(grandTotal);
+  document.getElementById('sbWords').textContent = grandTotal>0 ? 'Rupees '+n2w(Math.round(grandTotal))+' Only' : '—';
+
+  // Section headers
+  SECS.forEach(s=>{
+    const sub   = sectionTotal(s.id);
+    const gst   = gstOn ? sub*gstRate/100 : 0;
+    const total = sub+gst;
+    const el    = document.getElementById('sc_'+s.id)?.querySelector('.sh-total');
+    if(el){ if(total>0){ el.textContent=fmt(total); el.style.display=''; } else el.style.display='none'; }
+    const meta = document.getElementById('sc_'+s.id)?.querySelector('.sh-meta');
+    if(meta) meta.textContent = `${secRows[s.id].length} item${secRows[s.id].length!==1?'s':''} · Kerala 2025–26 rates`;
+  });
+
+  // Summary card
+  const sumBody = document.getElementById('sumBody');
+  const activeRows = SECS.filter(s=>secRows[s.id].length>0);
+  if(!activeRows.length){
+    sumBody.innerHTML = '<div class="sum-empty">Add items to any section above to see the summary.</div>';
+  } else {
+    let g2=0, g3=0, g4=0;
+    sumBody.innerHTML = activeRows.map(s=>{
+      const sub   = sectionTotal(s.id);
+      const gst   = gstOn ? sub*gstRate/100 : 0;
+      const total = sub+gst;
+      g2+=sub; g3+=gst; g4+=total;
+      const pct   = grandSub>0 ? (sub/grandSub*100).toFixed(1) : 0;
+      return `<div class="sum-row">
+        <div class="sum-row-name">${s.icon} ${s.name}</div>
+        <div class="sum-row-items">${secRows[s.id].length}</div>
+        <div class="sum-row-num">${fmt(sub)}</div>
+        <div class="sum-row-num">${gstOn?fmt(gst):'—'}</div>
+        <div class="sum-row-total">${fmt(total)}</div>
+      </div>`;
+    }).join('');
+    // Grand total row
+    sumBody.innerHTML += `<div class="sum-row" style="background:var(--ivory3);font-weight:600">
+      <div class="sum-row-name" style="font-weight:700">TOTAL</div>
+      <div class="sum-row-items"></div>
+      <div class="sum-row-num" style="color:var(--slate);font-weight:600">${fmt(g2)}</div>
+      <div class="sum-row-num" style="color:var(--slate);font-weight:600">${gstOn?fmt(g3):'—'}</div>
+      <div class="sum-row-total" style="font-size:.92rem">${fmt(g4)}</div>
+    </div>`;
+  }
+
+  document.getElementById('grandTotal').textContent = fmt(grandTotal);
+  document.getElementById('grandWords').textContent = grandTotal>0
+    ? 'Rupees '+n2w(Math.round(grandTotal))+' Only'
+    : '—';
+  const d = document.getElementById('f_date').value;
+  document.getElementById('sumDate').textContent = d ? fmtDate(d) : '';
+}
+
+/* ═══════════════════════════════════════════════════════════
+   RATE MODAL
+═══════════════════════════════════════════════════════════ */
+function openRates(){
+  document.getElementById('rateOverlay').classList.add('open');
+  renderRateTabs();
+  renderRatePanel(activeRateTab);
+}
+function closeRates(){ document.getElementById('rateOverlay').classList.remove('open'); }
+
+function renderRateTabs(){
+  document.getElementById('rtabs').innerHTML = SECS.map(s =>
+    `<div class="rtab${s.id===activeRateTab?' active':''}" onclick="switchRateTab('${s.id}')">${s.name}</div>`
+  ).join('');
+}
+function switchRateTab(sid){
+  activeRateTab = sid;
+  renderRateTabs();
+  renderRatePanel(sid);
+}
+
+function renderRatePanel(sid){
+  const sName = SECS.find(s=>s.id===sid)?.name||'';
+  const items = Object.entries(rates).filter(([k,v])=>v.s===sName);
+  const body  = document.getElementById('rpanels');
+  body.innerHTML = `<div class="rpanel active" style="padding:14px 24px 20px">
+    <p style="font-size:.76rem;color:var(--muted);font-style:italic;margin-bottom:14px">
+      Rates reflect Kerala market Q3 2024-25 + April 2026 update. Adjust for your district/specification.
+    </p>
+    <table class="rate-table">
+      <thead><tr>
+        <th>Item Description</th>
+        <th style="width:55px">Unit</th>
+        <th style="width:120px;text-align:right">Rate (₹)</th>
+      </tr></thead>
+      <tbody>
+        ${items.map(([k,v])=>`
+          <tr>
+            <td>
+              <span style="font-size:.81rem;font-weight:500">${v.name}</span>
+              ${v.note?`<div class="rate-note">${v.note}</div>`:''}
+            </td>
+            <td style="color:var(--faint);font-size:.76rem">per ${v.unit}</td>
+            <td style="text-align:right">
+              <input class="rn" type="number" value="${v.rate}"
+                oninput="updRate('${k}',this.value)">
+            </td>
+          </tr>`).join('')}
+      </tbody>
+    </table>
+  </div>`;
+}
+
+function updRate(key, val){
+  if(rates[key]) rates[key].rate = parseFloat(val)||0;
+}
+
+function resetRates(){
+  if(!confirm('Reset all rates to Kerala 2025–26 defaults?')) return;
+  rates = JSON.parse(JSON.stringify(RATE_DB));
+  renderRatePanel(activeRateTab);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   SAVE / LOAD
+═══════════════════════════════════════════════════════════ */
+function doSave(){
+  const data = {
+    v: 1, app:'kerala-construction-boq',
+    ts: new Date().toISOString(),
+    project:{
+      firm:    document.getElementById('f_firm').value,
+      client:  document.getElementById('f_client').value,
+      project: document.getElementById('f_project').value,
+      type:    document.getElementById('f_type').value,
+      area:    document.getElementById('f_area').value,
+      date:    document.getElementById('f_date').value,
+      ref:     document.getElementById('f_ref').value,
+    },
+    gst:{ on: document.getElementById('gstOn').checked, rate: document.getElementById('gstRate').value },
+    rates, secRows,
+    terms: document.getElementById('termsTA').value,
+  };
+  const blob = new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  const a    = document.createElement('a');
+  a.href     = URL.createObjectURL(blob);
+  a.download = (data.project.ref||'CBOQ')+'.json';
+  a.click();
+}
+
+function doLoad(){ document.getElementById('fileIn').click(); }
+
+function handleLoad(e){
+  const f = e.target.files[0]; if(!f) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    try{
+      const d = JSON.parse(ev.target.result);
+      if(d.project){
+        ['firm','client','project','type','area','date','ref'].forEach(k=>{
+          const el = document.getElementById('f_'+k);
+          if(el && d.project[k]!==undefined) el.value = d.project[k]||'';
+        });
+      }
+      if(d.gst){
+        document.getElementById('gstOn').checked  = d.gst.on;
+        document.getElementById('gstRate').value   = d.gst.rate;
+      }
+      if(d.rates) rates = d.rates;
+      if(d.secRows){
+        secRows = d.secRows;
+        SECS.forEach(s=>{ if(!secRows[s.id]) secRows[s.id]=[]; });
+        let mx = rid;
+        Object.values(secRows).flat().forEach(r=>{
+          const n=parseInt((r.id||'r0').replace('r',''));
+          if(!isNaN(n)&&n>=mx) mx=n+1;
+        });
+        rid=mx;
+        SECS.forEach(s=>{ if(!activeMode[s.id]) activeMode[s.id]='preset'; });
+      }
+      if(d.terms) document.getElementById('termsTA').value = d.terms;
+      buildSections(); buildNav(); recalc(); syncPrint();
+      alert('BOQ loaded successfully!');
+    }catch(err){ alert('Error loading file.\n'+err.message); }
+  };
+  reader.readAsText(f);
+  e.target.value='';
+}
+
+/* ═══════════════════════════════════════════════════════════
+   PRINT / PDF
+═══════════════════════════════════════════════════════════ */
+function syncPrint(){
+  const firm    = document.getElementById('f_firm').value    || 'HABICUBES BUILDERS';
+  const client  = document.getElementById('f_client').value;
+  const project = document.getElementById('f_project').value;
+  const type    = document.getElementById('f_type').value;
+  const area    = document.getElementById('f_area').value;
+  const date    = document.getElementById('f_date').value;
+  const ref     = document.getElementById('f_ref').value;
+  document.getElementById('ph_firm').textContent = firm;
+  document.getElementById('ph_firm_sub').textContent = 'Construction & Interior Design · Kerala';
+  document.getElementById('ph_contact').innerHTML = '📞 +91 98477 67740&nbsp;&nbsp;|&nbsp;&nbsp;✉ harrymark555@gmail.com&nbsp;&nbsp;|&nbsp;&nbsp;Alappuzha, Kerala';
+
+  const details = [
+    ['Client Name', client || '—'],
+    ['Project / Location', project || '—'],
+    ['Project Type', type || 'Residential'],
+    ['Built-up Area', area ? area + ' sqft' : '—'],
+    ['Date', date ? fmtDate(date) : '—'],
+    ['Reference No.', ref || '—'],
+  ];
+  document.getElementById('ph_details').innerHTML = details.map(([l,v]) =>
+    `<div class="ph-detail-item"><span class="ph-detail-label">${l}:</span><span>${v}</span></div>`
+  ).join('');
+}
+['f_firm','f_client','f_project','f_type','f_area','f_date','f_ref'].forEach(id=>{
+  document.getElementById(id)?.addEventListener('input', syncPrint);
+  document.getElementById(id)?.addEventListener('change', syncPrint);
+});
+
+function doPrint(){
+  syncPrint();
+  window.print();
+}
+
+/* ═══════════════════════════════════════════════════════════
+   UTILITIES
+═══════════════════════════════════════════════════════════ */
+function fmt(n){
+  if(!n||isNaN(n)) return '₹\u00A00';
+  return '₹\u00A0'+Math.round(n).toLocaleString('en-IN');
+}
+function fmtDate(d){
+  if(!d) return '';
+  try{ return new Date(d).toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'}); }
+  catch(e){ return d; }
+}
+function esc(s){
+  return String(s||'')
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function n2w(n){
+  if(n===0) return 'Zero';
+  const o=['','One','Two','Three','Four','Five','Six','Seven','Eight','Nine','Ten','Eleven','Twelve','Thirteen','Fourteen','Fifteen','Sixteen','Seventeen','Eighteen','Nineteen'];
+  const t=['','','Twenty','Thirty','Forty','Fifty','Sixty','Seventy','Eighty','Ninety'];
+  function c(x){
+    if(x<20) return o[x];
+    if(x<100) return t[Math.floor(x/10)]+(x%10?' '+o[x%10]:'');
+    if(x<1000) return o[Math.floor(x/100)]+' Hundred'+(x%100?' '+c(x%100):'');
+    if(x<100000) return c(Math.floor(x/1000))+' Thousand'+(x%1000?' '+c(x%1000):'');
+    if(x<10000000) return c(Math.floor(x/100000))+' Lakh'+(x%100000?' '+c(x%100000):'');
+    return c(Math.floor(x/10000000))+' Crore'+(x%10000000?' '+c(x%10000000):'');
+  }
+  return c(n);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   EXCEL EXPORT — Rich Formatted (SheetJS)
+═══════════════════════════════════════════════════════════ */
+function doExcelExport(){
+  if(typeof XLSX === 'undefined'){
+    alert('SheetJS library not loaded. Please check your internet connection.');
+    return;
+  }
+
+  const gstOn   = document.getElementById('gstOn').checked;
+  const gstRate = parseFloat(document.getElementById('gstRate').value)||18;
+  const proj = {
+    firm:    document.getElementById('f_firm').value    || 'HABICUBES BUILDERS',
+    client:  document.getElementById('f_client').value  || '—',
+    project: document.getElementById('f_project').value || '—',
+    type:    document.getElementById('f_type').value    || 'Residential',
+    area:    document.getElementById('f_area').value    || '—',
+    date:    document.getElementById('f_date').value    || '',
+    ref:     document.getElementById('f_ref').value     || 'CBOQ',
+  };
+
+  /* ─── Colour palette ─── */
+  const C = {
+    darkGreen : '1A4F3A',  // header bg
+    midGreen  : '2D6B50',  // section heading bg
+    lightGreen: 'C6E8D8',  // section subtotal bg
+    paleGreen : 'EAF5EE',  // alternate data row
+    amber     : 'F59E0B',  // GST row bg
+    amberLight: 'FEF3C7',  // GST row light
+    gold      : 'A07830',  // grand total text
+    goldBg    : 'FBF5E8',  // grand total bg
+    deepGold  : '7C5A1E',  // amount in words text
+    wordsBg   : 'FFFBEB',  // amount in words bg
+    colHdr    : '1A4F3A',  // column header bg  (same as darkGreen)
+    colHdrTxt : 'FFFFFF',
+    white     : 'FFFFFF',
+    nearWhite : 'F9FAFB',
+    slate     : '1E2328',
+    muted     : '6B7280',
+    border    : 'B0C4BB',
+  };
+
+  /* ─── Style factories ─── */
+  const font = (opts={}) => Object.assign({name:'Arial',sz:10,color:{rgb:C.slate}},opts);
+  const fill = rgb => ({patternType:'solid',fgColor:{rgb}});
+  const border = (color=C.border) => {
+    const s = {style:'thin',color:{rgb:color}};
+    return {top:s,bottom:s,left:s,right:s};
+  };
+  const borderThick = (color=C.darkGreen) => {
+    const s = {style:'medium',color:{rgb:color}};
+    return {top:s,bottom:s,left:s,right:s};
+  };
+  const align = (h='left',v='center',wrap=false) => ({horizontal:h,vertical:v,wrapText:wrap});
+
+  // Pre-built styles
+  const S = {
+    /* header block */
+    firmName: {font:font({sz:18,bold:true,color:{rgb:C.white}}), fill:fill(C.darkGreen), alignment:align('left','center')},
+    boqTitle: {font:font({sz:12,bold:true,color:{rgb:C.white}}), fill:fill(C.darkGreen), alignment:align('left','center')},
+    metaLabel:{font:font({sz:9,color:{rgb:C.white},italic:true}), fill:fill(C.midGreen), alignment:align('left','center')},
+    metaVal:  {font:font({sz:9,color:{rgb:C.white}}), fill:fill(C.midGreen), alignment:align('left','center')},
+    /* column headers */
+    colHdr:   {font:font({sz:10,bold:true,color:{rgb:C.colHdrTxt}}), fill:fill(C.colHdr), alignment:align('center','center'), border:border(C.darkGreen)},
+    colHdrR:  {font:font({sz:10,bold:true,color:{rgb:C.colHdrTxt}}), fill:fill(C.colHdr), alignment:align('right','center'),  border:border(C.darkGreen)},
+    /* section band */
+    secBand:  {font:font({sz:10,bold:true,color:{rgb:C.white}}), fill:fill(C.midGreen), alignment:align('left','center'), border:border(C.midGreen)},
+    /* data rows */
+    rowNum:   {font:font({sz:9,color:{rgb:C.muted}}),   fill:fill(C.white),     alignment:align('center','center'), border:border()},
+    rowDesc:  {font:font({sz:10}),                       fill:fill(C.white),     alignment:align('left','center',true),  border:border()},
+    rowDescAlt:{font:font({sz:10}),                      fill:fill(C.paleGreen), alignment:align('left','center',true),  border:border()},
+    rowUnit:  {font:font({sz:9,color:{rgb:C.muted}}),   fill:fill(C.white),     alignment:align('center','center'), border:border()},
+    rowUnitAlt:{font:font({sz:9,color:{rgb:C.muted}}),  fill:fill(C.paleGreen), alignment:align('center','center'), border:border()},
+    rowNum2:  {font:font({sz:9,color:{rgb:C.muted}}),   fill:fill(C.white),     alignment:align('right','center'),  border:border()},
+    rowNum2Alt:{font:font({sz:9,color:{rgb:C.muted}}),  fill:fill(C.paleGreen), alignment:align('right','center'),  border:border()},
+    rowAmt:   {font:font({sz:10,color:{rgb:C.midGreen},bold:true}), fill:fill(C.white),     alignment:align('right','center'), border:border(), numFmt:'₹#,##0'},
+    rowAmtAlt:{font:font({sz:10,color:{rgb:C.midGreen},bold:true}), fill:fill(C.paleGreen), alignment:align('right','center'), border:border(), numFmt:'₹#,##0'},
+    rowGstAmt:{font:font({sz:9,color:{rgb:C.muted}}),   fill:fill(C.white),     alignment:align('right','center'), border:border(), numFmt:'₹#,##0'},
+    rowGstAmtAlt:{font:font({sz:9,color:{rgb:C.muted}}),fill:fill(C.paleGreen), alignment:align('right','center'), border:border(), numFmt:'₹#,##0'},
+    /* section subtotal */
+    stLabel:  {font:font({sz:10,bold:true,color:{rgb:C.midGreen},italic:true}), fill:fill(C.lightGreen), alignment:align('right','center'), border:border(C.midGreen)},
+    stAmt:    {font:font({sz:11,bold:true,color:{rgb:C.midGreen}}), fill:fill(C.lightGreen), alignment:align('right','center'), border:border(C.midGreen), numFmt:'₹#,##0'},
+    stBlank:  {font:font(), fill:fill(C.lightGreen), border:border(C.midGreen)},
+    /* grand total block */
+    gtLabel:  {font:font({sz:11,bold:true,color:{rgb:C.slate}}),  fill:fill(C.goldBg),   alignment:align('right','center'), border:borderThick()},
+    gtAmt:    {font:font({sz:11,bold:true,color:{rgb:C.gold}}),   fill:fill(C.goldBg),   alignment:align('right','center'), border:borderThick(), numFmt:'₹#,##0'},
+    gtBlank:  {font:font(), fill:fill(C.goldBg), border:borderThick()},
+    gtGst:    {font:font({sz:10,bold:true,color:{rgb:'D97706'}}), fill:fill(C.amberLight),alignment:align('right','center'), border:border(C.amber), numFmt:'₹#,##0'},
+    gtGstLbl: {font:font({sz:10,bold:true,color:{rgb:'92400E'}}), fill:fill(C.amberLight),alignment:align('right','center'), border:border(C.amber)},
+    gtGstBlk: {font:font(), fill:fill(C.amberLight), border:border(C.amber)},
+    gtFinal:  {font:font({sz:14,bold:true,color:{rgb:C.white}}),  fill:fill(C.darkGreen),alignment:align('right','center'), border:borderThick(C.darkGreen), numFmt:'₹#,##0'},
+    gtFinalLbl:{font:font({sz:12,bold:true,color:{rgb:C.white}}), fill:fill(C.darkGreen),alignment:align('left','center'),  border:borderThick(C.darkGreen)},
+    gtFinalBlk:{font:font({sz:12,color:{rgb:C.white}}),           fill:fill(C.darkGreen),border:borderThick(C.darkGreen)},
+    /* amount in words */
+    wordsLbl: {font:font({sz:10,bold:true,color:{rgb:C.deepGold}}), fill:fill(C.wordsBg), alignment:align('left','center'), border:borderThick(C.gold)},
+    wordsVal: {font:font({sz:11,bold:true,italic:true,color:{rgb:C.deepGold}}), fill:fill(C.wordsBg), alignment:align('left','center',true), border:borderThick(C.gold)},
+    /* terms */
+    termHdr:  {font:font({sz:10,bold:true,color:{rgb:C.white}}), fill:fill(C.midGreen), alignment:align('left','center'), border:border(C.midGreen)},
+    termTxt:  {font:font({sz:9,color:{rgb:C.slate}}), fill:fill(C.nearWhite), alignment:align('left','center',true), border:border()},
+    /* blank/spacer */
+    blank:    {font:font(), fill:fill(C.white)},
+  };
+
+  /* ─── Cell writer helper ─── */
+  function setCell(ws, addr, value, style, numFmt){
+    const cellRef = typeof addr==='string' ? addr : XLSX.utils.encode_cell(addr);
+    const t = (typeof value==='number') ? 'n' : (value===''||value===null||value===undefined) ? 'z' : 's';
+    ws[cellRef] = { v: value===''||value===null||value===undefined ? '' : value, t };
+    if(style) ws[cellRef].s = style;
+    if(numFmt||(style&&style.numFmt)) ws[cellRef].z = numFmt||(style&&style.numFmt)||undefined;
+  }
+
+  /* ─── Merge helper ─── */
+  function addMerge(merges,r1,c1,r2,c2){ merges.push({s:{r:r1,c:c1},e:{r:r2,c:c2}}); }
+
+  /* ══════════════════════════════════════════════════════
+     PRE-CALCULATE TOTALS
+  ══════════════════════════════════════════════════════ */
+  let grandSub=0, grandGst=0, grandTotal=0;
+  const sectionData=[];
+  SECS.forEach(s=>{
+    const rows=secRows[s.id];
+    if(!rows.length) return;
+    let secSub=0;
+    rows.forEach(r=>{ secSub += r.qty*r.rate; });
+    const secGst  = gstOn ? secSub*gstRate/100 : 0;
+    const secTotal= secSub+secGst;
+    grandSub   += secSub;
+    grandGst   += secGst;
+    grandTotal += secTotal;
+    sectionData.push({s, rows, secSub, secGst, secTotal});
+  });
+
+  const wordsText = grandTotal>0 ? 'Rupees '+n2w(Math.round(grandTotal))+' Only' : 'Zero';
+  const COLS = gstOn ? 9 : 8;  // number of data columns used
+
+  /* ══════════════════════════════════════════════════════
+     SHEET 1 — DETAILED BOQ
+  ══════════════════════════════════════════════════════ */
+  const ws1 = {'!ref':'A1','!merges':[],'!cols':[],'!rows':[]};
+  const merges1 = ws1['!merges'];
+  let R = 0; // 0-indexed row counter
+
+  // ── Row 0: Firm name banner (A–I merged) ──
+  const lastCol = gstOn ? 8 : 7; // 0-indexed
+  setCell(ws1, {r:R,c:0}, proj.firm, S.firmName);
+  for(let c=1;c<=lastCol;c++) setCell(ws1,{r:R,c},'',(c===lastCol?S.firmName:{...S.firmName}));
+  addMerge(merges1, R,0, R,lastCol);
+  ws1['!rows'][R] = {hpt:32};
+  R++;
+
+  // ── Row 1: BOQ title ──
+  setCell(ws1,{r:R,c:0},'BILL OF QUANTITIES — BUILDING CONSTRUCTION',S.boqTitle);
+  for(let c=1;c<=lastCol;c++) setCell(ws1,{r:R,c},'',S.boqTitle);
+  addMerge(merges1,R,0,R,lastCol);
+  ws1['!rows'][R]={hpt:22};
+  R++;
+
+  // ── Rows 2-6: Project meta 2-column grid ──
+  const metaItems=[
+    ['Firm / Company', proj.firm],
+    ['Client Name',    proj.client],
+    ['Project',        proj.project],
+    ['Type',           proj.type],
+    ['Built-up Area',  proj.area ? proj.area+' sqft' : '—'],
+    ['Date',           proj.date ? fmtDate(proj.date) : '—'],
+    ['Reference No.',  proj.ref],
+    ['GST Status',     gstOn ? 'Applied @ '+gstRate+'%' : 'Not Applied'],
+  ];
+  const metaHalf = Math.ceil(metaItems.length/2);
+  const midCol   = Math.floor((lastCol+1)/2);
+  for(let i=0;i<metaHalf;i++){
+    const left  = metaItems[i];
+    const right = metaItems[i+metaHalf]||['',''];
+    // left label
+    setCell(ws1,{r:R,c:0},left[0],S.metaLabel);
+    addMerge(merges1,R,0,R,midCol-2);
+    for(let c=1;c<=midCol-2;c++) setCell(ws1,{r:R,c},'',S.metaLabel);
+    // left value
+    setCell(ws1,{r:R,c:midCol-1},left[1],S.metaVal);
+    addMerge(merges1,R,midCol-1,R,midCol);
+    setCell(ws1,{r:R,c:midCol},'',S.metaVal);
+    // right label
+    if(right[0]){
+      setCell(ws1,{r:R,c:midCol+1},right[0],S.metaLabel);
+      addMerge(merges1,R,midCol+1,R,lastCol-1);
+      for(let c=midCol+2;c<=lastCol-1;c++) setCell(ws1,{r:R,c},'',S.metaLabel);
+      setCell(ws1,{r:R,c:lastCol},right[1],S.metaVal);
+    } else {
+      for(let c=midCol+1;c<=lastCol;c++) setCell(ws1,{r:R,c},'',S.metaLabel);
+    }
+    ws1['!rows'][R]={hpt:18};
+    R++;
+  }
+
+  // ── Spacer ──
+  for(let c=0;c<=lastCol;c++) setCell(ws1,{r:R,c},'',S.blank);
+  ws1['!rows'][R]={hpt:6};
+  R++;
+
+  // ── Column header row ──
+  const colHeaders = gstOn
+    ? ['#','Work Section','Description of Work','Unit','Qty','Rate (₹)','Sub-Amount (₹)','GST (₹)','Total (₹)']
+    : ['#','Work Section','Description of Work','Unit','Qty','Rate (₹)','Sub-Amount (₹)','Total (₹)'];
+  colHeaders.forEach((h,c)=>{
+    setCell(ws1,{r:R,c:c},h, c<=2 ? S.colHdr : S.colHdrR);
+  });
+  ws1['!rows'][R]={hpt:20};
+  const freezeRow = R+1; // freeze above this
+  R++;
+
+  // ── Data rows ──
+  let itemNum=0;
+  sectionData.forEach(({s,rows,secSub,secGst,secTotal})=>{
+    // Section band
+    setCell(ws1,{r:R,c:0},s.icon+' '+s.name.toUpperCase(),S.secBand);
+    addMerge(merges1,R,0,R,lastCol);
+    for(let c=1;c<=lastCol;c++) setCell(ws1,{r:R,c},'',S.secBand);
+    ws1['!rows'][R]={hpt:18};
+    R++;
+
+    rows.forEach((row,i)=>{
+      itemNum++;
+      const amt = row.qty*row.rate;
+      const gst = gstOn ? amt*gstRate/100 : 0;
+      const tot = amt+gst;
+      const alt = i%2===1;
+      const dS  = alt?S.rowDescAlt:S.rowDesc;
+      const uS  = alt?S.rowUnitAlt:S.rowUnit;
+      const nS  = alt?S.rowNum2Alt:S.rowNum2;
+      const aS  = alt?S.rowAmtAlt:S.rowAmt;
+      const gS  = alt?S.rowGstAmtAlt:S.rowGstAmt;
+      const rS  = {...(alt?S.rowAmtAlt:S.rowAmt), font:{...font({sz:10,bold:false,color:{rgb:C.slate}})}};
+
+      setCell(ws1,{r:R,c:0},itemNum,{...S.rowNum,fill:fill(alt?C.paleGreen:C.white)});
+      setCell(ws1,{r:R,c:1},s.name,{...uS});
+      setCell(ws1,{r:R,c:2},row.desc,dS);
+      setCell(ws1,{r:R,c:3},row.unit,uS);
+      setCell(ws1,{r:R,c:4},row.qty,{...nS,numFmt:'0.##'});
+      setCell(ws1,{r:R,c:5},row.rate,{...nS,numFmt:'₹#,##0'});
+      setCell(ws1,{r:R,c:6},amt,aS,'₹#,##0');
+      if(gstOn){
+        setCell(ws1,{r:R,c:7},gst,gS,'₹#,##0');
+        setCell(ws1,{r:R,c:8},tot,{...aS},'₹#,##0');
+      } else {
+        setCell(ws1,{r:R,c:7},tot,{...aS},'₹#,##0');
+      }
+      ws1['!rows'][R]={hpt:18};
+      R++;
+    });
+
+    // Section subtotal row
+    const stCols = gstOn ? lastCol+1 : lastCol+1;
+    for(let c=0;c<5;c++) setCell(ws1,{r:R,c:c},'',S.stBlank);
+    setCell(ws1,{r:R,c:5},'Section Subtotal →',S.stLabel);
+    addMerge(merges1,R,5,R,5);
+    setCell(ws1,{r:R,c:6},secSub,S.stAmt,'₹#,##0');
+    if(gstOn){
+      setCell(ws1,{r:R,c:7},secGst,S.stAmt,'₹#,##0');
+      setCell(ws1,{r:R,c:8},secTotal,S.stAmt,'₹#,##0');
+    } else {
+      setCell(ws1,{r:R,c:7},secTotal,S.stAmt,'₹#,##0');
+    }
+    ws1['!rows'][R]={hpt:20};
+    R++;
+
+    // Thin spacer between sections
+    for(let c=0;c<=lastCol;c++) setCell(ws1,{r:R,c:c},'',S.blank);
+    ws1['!rows'][R]={hpt:6};
+    R++;
+  });
+
+  // ── Grand total block ──
+  // Spacer
+  for(let c=0;c<=lastCol;c++) setCell(ws1,{r:R,c},'',S.blank);
+  ws1['!rows'][R]={hpt:8};
+  R++;
+
+  // Row: Sub-total (before GST)
+  for(let c=0;c<=4;c++) setCell(ws1,{r:R,c},'',S.gtBlank);
+  setCell(ws1,{r:R,c:5},'Total (Before GST)',S.gtLabel);
+  addMerge(merges1,R,5,R,gstOn?6:6);
+  if(!gstOn) addMerge(merges1,R,5,R,lastCol-1);
+  setCell(ws1,{r:R,c:6},'',S.gtBlank);
+  if(gstOn){
+    setCell(ws1,{r:R,c:7},'',S.gtBlank);
+    setCell(ws1,{r:R,c:8},grandSub,S.gtAmt,'₹#,##0');
+  } else {
+    setCell(ws1,{r:R,c:lastCol},grandSub,S.gtAmt,'₹#,##0');
+  }
+  ws1['!rows'][R]={hpt:22};
+  R++;
+
+  if(gstOn){
+    // Row: GST amount
+    for(let c=0;c<=4;c++) setCell(ws1,{r:R,c},'',S.gtGstBlk);
+    setCell(ws1,{r:R,c:5},'GST @ '+gstRate+'%',S.gtGstLbl);
+    addMerge(merges1,R,5,R,7);
+    setCell(ws1,{r:R,c:6},'',S.gtGstBlk);
+    setCell(ws1,{r:R,c:7},'',S.gtGstBlk);
+    setCell(ws1,{r:R,c:8},grandGst,S.gtGst,'₹#,##0');
+    ws1['!rows'][R]={hpt:22};
+    R++;
+  }
+
+  // Row: GRAND TOTAL (big)
+  for(let c=0;c<=4;c++) setCell(ws1,{r:R,c},'',S.gtFinalBlk);
+  setCell(ws1,{r:R,c:5},'GRAND TOTAL (Incl. GST)',S.gtFinalLbl);
+  addMerge(merges1,R,5,R,lastCol-1);
+  for(let c=6;c<lastCol;c++) setCell(ws1,{r:R,c},'',S.gtFinalBlk);
+  setCell(ws1,{r:R,c:lastCol},grandTotal,S.gtFinal,'₹#,##0');
+  ws1['!rows'][R]={hpt:30};
+  R++;
+
+  // ── Amount in Words (full-width) ──
+  for(let c=0;c<=lastCol;c++) setCell(ws1,{r:R,c},'',{...S.blank,fill:fill(C.wordsBg)});
+  ws1['!rows'][R]={hpt:6};
+  R++;
+
+  setCell(ws1,{r:R,c:0},'Amount in Words:',S.wordsLbl);
+  addMerge(merges1,R,0,R,2);
+  setCell(ws1,{r:R,c:1},'',S.wordsLbl);
+  setCell(ws1,{r:R,c:2},'',S.wordsLbl);
+  setCell(ws1,{r:R,c:3},wordsText,S.wordsVal);
+  addMerge(merges1,R,3,R,lastCol);
+  for(let c=4;c<=lastCol;c++) setCell(ws1,{r:R,c},'',S.wordsVal);
+  ws1['!rows'][R]={hpt:28};
+  R++;
+
+  for(let c=0;c<=lastCol;c++) setCell(ws1,{r:R,c},'',{...S.blank,fill:fill(C.wordsBg)});
+  ws1['!rows'][R]={hpt:6};
+  R++;
+
+  // ── Terms ──
+  const terms = document.getElementById('termsTA').value;
+  if(terms && terms.trim()){
+    for(let c=0;c<=lastCol;c++) setCell(ws1,{r:R,c},'',S.blank);
+    ws1['!rows'][R]={hpt:8}; R++;
+
+    setCell(ws1,{r:R,c:0},'TERMS & CONDITIONS',S.termHdr);
+    addMerge(merges1,R,0,R,lastCol);
+    for(let c=1;c<=lastCol;c++) setCell(ws1,{r:R,c},'',S.termHdr);
+    ws1['!rows'][R]={hpt:20}; R++;
+
+    terms.split('\n').forEach(line=>{
+      if(!line.trim()) return;
+      setCell(ws1,{r:R,c:0},line,S.termTxt);
+      addMerge(merges1,R,0,R,lastCol);
+      for(let c=1;c<=lastCol;c++) setCell(ws1,{r:R,c},'',S.termTxt);
+      ws1['!rows'][R]={hpt:18}; R++;
+    });
+  }
+
+  ws1['!ref'] = XLSX.utils.encode_range({s:{r:0,c:0},e:{r:R-1,c:lastCol}});
+  ws1['!cols'] = [
+    {wch:5},   // # 
+    {wch:22},  // Section
+    {wch:48},  // Description
+    {wch:8},   // Unit
+    {wch:9},   // Qty
+    {wch:14},  // Rate
+    {wch:16},  // Sub-Amt
+    {wch:gstOn?15:16},  // GST / Total
+    ...(gstOn?[{wch:16}]:[]),  // Total (if GST)
+  ];
+  ws1['!freeze'] = {xSplit:0, ySplit:freezeRow};
+
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws1, 'Detailed BOQ');
+
+  /* ══════════════════════════════════════════════════════
+     SHEET 2 — SUMMARY
+  ══════════════════════════════════════════════════════ */
+  const ws2 = {'!ref':'A1','!merges':[],'!cols':[],'!rows':[]};
+  const merges2 = ws2['!merges'];
+  let R2=0;
+  const S2lastCol = gstOn ? 5 : 4;
+
+  // Title banner
+  setCell(ws2,{r:R2,c:0},proj.firm,S.firmName);
+  addMerge(merges2,R2,0,R2,S2lastCol);
+  for(let c=1;c<=S2lastCol;c++) setCell(ws2,{r:R2,c},'',S.firmName);
+  ws2['!rows'][R2]={hpt:30}; R2++;
+
+  setCell(ws2,{r:R2,c:0},'BOQ SUMMARY — BUILDING CONSTRUCTION',S.boqTitle);
+  addMerge(merges2,R2,0,R2,S2lastCol);
+  for(let c=1;c<=S2lastCol;c++) setCell(ws2,{r:R2,c},'',S.boqTitle);
+  ws2['!rows'][R2]={hpt:22}; R2++;
+
+  // Project info strip
+  const infoStr = [
+    proj.client!=='—'?'Client: '+proj.client:'',
+    proj.project!=='—'?'Project: '+proj.project:'',
+    proj.type?'Type: '+proj.type:'',
+    proj.area!=='—'?'Area: '+proj.area+' sqft':'',
+    proj.date?'Date: '+fmtDate(proj.date):'',
+    'Ref: '+proj.ref,
+  ].filter(Boolean).join('   |   ');
+  setCell(ws2,{r:R2,c:0},infoStr,S.metaVal);
+  addMerge(merges2,R2,0,R2,S2lastCol);
+  for(let c=1;c<=S2lastCol;c++) setCell(ws2,{r:R2,c},'',S.metaVal);
+  ws2['!rows'][R2]={hpt:18}; R2++;
+
+  // Spacer
+  for(let c=0;c<=S2lastCol;c++) setCell(ws2,{r:R2,c},'',S.blank);
+  ws2['!rows'][R2]={hpt:8}; R2++;
+
+  // Col headers
+  const s2Headers = gstOn
+    ? ['#','Work Section','Items','Sub-Total (₹)','GST @ '+gstRate+'% (₹)','Grand Total (₹)']
+    : ['#','Work Section','Items','Sub-Total (₹)','Grand Total (₹)'];
+  s2Headers.forEach((h,c)=>setCell(ws2,{r:R2,c},h,c<=1?S.colHdr:S.colHdrR));
+  ws2['!rows'][R2]={hpt:20}; R2++;
+
+  // Data
+  sectionData.forEach(({s,rows,secSub,secGst,secTotal},i)=>{
+    const alt=i%2===1;
+    const bg=alt?C.paleGreen:C.white;
+    const dS={font:font({sz:10,bold:true}),fill:fill(bg),alignment:align('left','center'),border:border()};
+    const nS={font:font({sz:10}),fill:fill(bg),alignment:align('center','center'),border:border()};
+    const aS={font:font({sz:10,color:{rgb:C.midGreen},bold:true}),fill:fill(bg),alignment:align('right','center'),border:border(),numFmt:'₹#,##0'};
+    setCell(ws2,{r:R2,c:0},i+1,{...nS,alignment:align('center','center')});
+    setCell(ws2,{r:R2,c:1},s.icon+' '+s.name,dS);
+    setCell(ws2,{r:R2,c:2},rows.length,nS);
+    setCell(ws2,{r:R2,c:3},secSub,aS,'₹#,##0');
+    if(gstOn){
+      setCell(ws2,{r:R2,c:4},secGst,{...aS,font:font({sz:10,color:{rgb:'D97706'}})}, '₹#,##0');
+      setCell(ws2,{r:R2,c:5},secTotal,aS,'₹#,##0');
+    } else {
+      setCell(ws2,{r:R2,c:4},secTotal,aS,'₹#,##0');
+    }
+    ws2['!rows'][R2]={hpt:20}; R2++;
+  });
+
+  // Totals band
+  for(let c=0;c<=S2lastCol;c++) setCell(ws2,{r:R2,c},'',S.stBlank);
+  ws2['!rows'][R2]={hpt:6}; R2++;
+  setCell(ws2,{r:R2,c:0},'',S.stAmt);
+  setCell(ws2,{r:R2,c:1},'TOTAL',S.stLabel);
+  setCell(ws2,{r:R2,c:2},sectionData.reduce((a,d)=>a+d.rows.length,0),S.stAmt);
+  setCell(ws2,{r:R2,c:3},grandSub,S.stAmt,'₹#,##0');
+  if(gstOn){
+    setCell(ws2,{r:R2,c:4},grandGst,S.stAmt,'₹#,##0');
+    setCell(ws2,{r:R2,c:5},grandTotal,S.stAmt,'₹#,##0');
+  } else {
+    setCell(ws2,{r:R2,c:4},grandTotal,S.stAmt,'₹#,##0');
+  }
+  ws2['!rows'][R2]={hpt:22}; R2++;
+
+  // Grand total box
+  for(let c=0;c<=S2lastCol;c++) setCell(ws2,{r:R2,c},'',S.blank);
+  ws2['!rows'][R2]={hpt:10}; R2++;
+
+  if(gstOn){
+    // Sub-total row
+    setCell(ws2,{r:R2,c:0},'',S.gtBlank);
+    setCell(ws2,{r:R2,c:1},'Total Before GST',S.gtLabel);
+    addMerge(merges2,R2,1,R2,4);
+    for(let c=2;c<=4;c++) setCell(ws2,{r:R2,c},'',S.gtBlank);
+    setCell(ws2,{r:R2,c:5},grandSub,S.gtAmt,'₹#,##0');
+    ws2['!rows'][R2]={hpt:22}; R2++;
+    // GST row
+    setCell(ws2,{r:R2,c:0},'',S.gtGstBlk);
+    setCell(ws2,{r:R2,c:1},'Add: GST @ '+gstRate+'%',S.gtGstLbl);
+    addMerge(merges2,R2,1,R2,4);
+    for(let c=2;c<=4;c++) setCell(ws2,{r:R2,c},'',S.gtGstBlk);
+    setCell(ws2,{r:R2,c:5},grandGst,S.gtGst,'₹#,##0');
+    ws2['!rows'][R2]={hpt:22}; R2++;
+  }
+  // Grand Total final
+  setCell(ws2,{r:R2,c:0},'',S.gtFinalBlk);
+  setCell(ws2,{r:R2,c:1},'GRAND TOTAL (Incl. GST)',S.gtFinalLbl);
+  addMerge(merges2,R2,1,R2,S2lastCol-1);
+  for(let c=2;c<S2lastCol;c++) setCell(ws2,{r:R2,c},'',S.gtFinalBlk);
+  setCell(ws2,{r:R2,c:S2lastCol},grandTotal,S.gtFinal,'₹#,##0');
+  ws2['!rows'][R2]={hpt:30}; R2++;
+
+  // Amount in words — full box
+  for(let c=0;c<=S2lastCol;c++) setCell(ws2,{r:R2,c},'',{...S.blank,fill:fill(C.wordsBg)});
+  ws2['!rows'][R2]={hpt:6}; R2++;
+
+  setCell(ws2,{r:R2,c:0},'AMOUNT IN WORDS',S.wordsLbl);
+  addMerge(merges2,R2,0,R2,S2lastCol);
+  for(let c=1;c<=S2lastCol;c++) setCell(ws2,{r:R2,c},'',S.wordsLbl);
+  ws2['!rows'][R2]={hpt:22}; R2++;
+
+  setCell(ws2,{r:R2,c:0},wordsText,S.wordsVal);
+  addMerge(merges2,R2,0,R2,S2lastCol);
+  for(let c=1;c<=S2lastCol;c++) setCell(ws2,{r:R2,c},'',S.wordsVal);
+  ws2['!rows'][R2]={hpt:32}; R2++;
+
+  for(let c=0;c<=S2lastCol;c++) setCell(ws2,{r:R2,c},'',{...S.blank,fill:fill(C.wordsBg)});
+  ws2['!rows'][R2]={hpt:6}; R2++;
+
+  // Note
+  for(let c=0;c<=S2lastCol;c++) setCell(ws2,{r:R2,c},'',S.blank);
+  ws2['!rows'][R2]={hpt:8}; R2++;
+  const noteStyle={font:font({sz:8,italic:true,color:{rgb:C.muted}}),fill:fill(C.nearWhite),alignment:align('left','center'),border:border()};
+  setCell(ws2,{r:R2,c:0},'Note: Rates based on Kerala market 2025-26. Actual rates may vary by district. Source: Kerala Govt. Economics & Statistics Q3 2024-25 + trade verification April 2026.',noteStyle);
+  addMerge(merges2,R2,0,R2,S2lastCol);
+  for(let c=1;c<=S2lastCol;c++) setCell(ws2,{r:R2,c},'',noteStyle);
+  ws2['!rows'][R2]={hpt:16}; R2++;
+
+  ws2['!ref'] = XLSX.utils.encode_range({s:{r:0,c:0},e:{r:R2-1,c:S2lastCol}});
+  ws2['!cols'] = [
+    {wch:5},
+    {wch:34},
+    {wch:10},
+    {wch:20},
+    ...(gstOn?[{wch:20}]:[]),
+    {wch:20},
+  ];
+
+  XLSX.utils.book_append_sheet(wb, ws2, 'Summary');
+
+  /* ══════════════════════════════════════════════════════
+     SHEET 3 — RATE SCHEDULE
+  ══════════════════════════════════════════════════════ */
+  const ws3={'!ref':'A1','!merges':[],'!cols':[],'!rows':[]};
+  const merges3=ws3['!merges'];
+  let R3=0;
+
+  setCell(ws3,{r:R3,c:0},'Kerala Construction Rate Schedule 2025–26',S.firmName);
+  addMerge(merges3,R3,0,R3,5);
+  for(let c=1;c<=5;c++) setCell(ws3,{r:R3,c},'',S.firmName);
+  ws3['!rows'][R3]={hpt:26}; R3++;
+
+  setCell(ws3,{r:R3,c:0},'Source: Kerala Govt. Economics & Statistics Q3 2024-25 + field-verified rates (April 2026)',S.metaVal);
+  addMerge(merges3,R3,0,R3,5);
+  for(let c=1;c<=5;c++) setCell(ws3,{r:R3,c},'',S.metaVal);
+  ws3['!rows'][R3]={hpt:16}; R3++;
+
+  for(let c=0;c<=5;c++) setCell(ws3,{r:R3,c},'',S.blank);
+  ws3['!rows'][R3]={hpt:6}; R3++;
+
+  ['Section','Code','Description','Unit','Rate (₹)','Notes'].forEach((h,c)=>
+    setCell(ws3,{r:R3,c:c},h,c===4?S.colHdrR:S.colHdr));
+  ws3['!rows'][R3]={hpt:20}; R3++;
+
+  let prevSec='';
+  Object.entries(rates).forEach(([k,v],idx)=>{
+    if(v.s!==prevSec){
+      for(let c=0;c<=5;c++) setCell(ws3,{r:R3,c},'',S.blank);
+      ws3['!rows'][R3]={hpt:4}; R3++;
+      setCell(ws3,{r:R3,c:0},v.s,S.secBand);
+      addMerge(merges3,R3,0,R3,5);
+      for(let c=1;c<=5;c++) setCell(ws3,{r:R3,c},'',S.secBand);
+      ws3['!rows'][R3]={hpt:18}; R3++;
+      prevSec=v.s;
+    }
+    const alt=idx%2===1;
+    const bg=alt?C.paleGreen:C.white;
+    const bS={font:font({sz:9}),fill:fill(bg),alignment:align('left','center'),border:border()};
+    const aS={font:font({sz:10,bold:true,color:{rgb:C.midGreen}}),fill:fill(bg),alignment:align('right','center'),border:border(),numFmt:'₹#,##0'};
+    setCell(ws3,{r:R3,c:0},v.s,{...bS,font:font({sz:9,color:{rgb:C.muted}})});
+    setCell(ws3,{r:R3,c:1},k,{...bS,font:font({sz:9,color:{rgb:C.muted}})});
+    setCell(ws3,{r:R3,c:2},v.name,{...bS,font:font({sz:10})});
+    setCell(ws3,{r:R3,c:3},v.unit,{...bS,alignment:align('center','center')});
+    setCell(ws3,{r:R3,c:4},v.rate,aS,'₹#,##0');
+    setCell(ws3,{r:R3,c:5},v.note||'',{...bS,font:font({sz:8,italic:true,color:{rgb:C.muted}})});
+    ws3['!rows'][R3]={hpt:16}; R3++;
+  });
+
+  ws3['!ref']=XLSX.utils.encode_range({s:{r:0,c:0},e:{r:R3-1,c:5}});
+  ws3['!cols']=[{wch:26},{wch:10},{wch:52},{wch:9},{wch:14},{wch:42}];
+
+  XLSX.utils.book_append_sheet(wb, ws3, 'Rate Schedule');
+
+  /* ── Download ── */
+  const filename = (proj.ref||'CBOQ')+'_'+(proj.project||'Project').replace(/[^a-zA-Z0-9]/g,'_')+'.xlsx';
+  XLSX.writeFile(wb, filename);
+}
+
+
+buildNav();
+buildSections();
+recalc();
+syncPrint();
+
+document.getElementById('rateOverlay').addEventListener('click', e=>{
+  if(e.target===document.getElementById('rateOverlay')) closeRates();
+});
+
+const spy = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const id = e.target.id.replace('sc_','');
+      document.querySelectorAll('.sn-item').forEach(n=>
+        n.style.outline = n.id==='nav_'+id && secRows[id]?.length>0
+          ? '2px solid var(--forest-mid)' : 'none'
+      );
+    }
+  });
+},{threshold:.2});
+SECS.forEach(s=>{ const el=document.getElementById('sc_'+s.id); if(el) spy.observe(el); });
+</script>
+<!-- WHATSAPP FAB -->
+<a class="wa-fab no-print" href="https://wa.me/919847767740?text=Hi%2C%20I%20need%20a%20BOQ%20estimate%20for%20my%20project.%20Location%3A%20___%20Area%3A%20__%20sqft." target="_blank" title="WhatsApp HABICUBES BUILDERS">
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  <span class="wa-tooltip">Chat with HABICUBES</span>
+</a>
+
+</body>
+</html>
